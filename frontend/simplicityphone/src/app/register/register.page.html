@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Registro de Sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="form-container">
+    <ion-input
+      placeholder="Nombre"
+      type="text"
+      [(ngModel)]="name"
+      class="custom-input"
+    ></ion-input>
+    <ion-input
+      placeholder="Correo Electrónico"
+      type="email"
+      [(ngModel)]="email"
+      class="custom-input"
+    ></ion-input>
+    <ion-input
+      placeholder="Contraseña"
+      type="password"
+      [(ngModel)]="password"
+      class="custom-input"
+    ></ion-input>
+    <ion-button expand="block" color="success" (click)="registrarse()"
+      >Registrarse</ion-button
+    >
+  </div>
+</ion-content>
