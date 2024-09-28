@@ -1,32 +1,65 @@
 ion-content {
-  --background: #118ceb; /* Fondo azul claro */
+  --background: #118ceb; /* Color de fondo del contenido */
+  text-align: center; /* Centrar texto dentro del contenido */
 }
 
-.form-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-}
+form {
+  display: flex; /* Usar flexbox para centrar los elementos */
+  flex-direction: column; /* Alinear elementos en columna */
+  justify-content: center; /* Centrar elementos verticalmente */
+  height: auto; /* Ajustar la altura automáticamente */
+  padding: 20px; /* Añadir un poco de espacio alrededor del formulario */
+  max-width: 400px; /* Limitar el ancho máximo del contenedor */
+  margin-left: auto; /* Centrar horizontalmente */
+  margin-right: auto; /* Centrar horizontalmente */
+  width: 100%;
+  ion-title {
+    text-align: center;
+    background-color: #4caf50; /* Color verde */
+    padding: 10px; /* Espacio alrededor del título */
+    border-radius: 20px; /* Bordes redondeados */
+    margin-bottom: 20px; /* Espacio debajo del título */
+    width: 100%;
+    justify-content: center;
+  }
+  ion-item {
+    ion-input {
+      //display: block; /* Asegurar que el label se comporte como bloque */
+      margin-top: 10px; /* Espacio debajo del label */
+      color: rgb(0, 0, 0); /* Color del texto del label */
+      text-align: center; /* Alinear texto a la izquierda */
+      border-radius: 20px;
+    }
+  }
 
-ion-input {
-  margin-bottom: 15px;
-  --placeholder-color: #070707;
-  --background: rgb(255, 255, 255); /* Campo blanco semitransparente */
-  --border-radius: 25px;
-  --color: rgb(1, 1, 1);
-  padding: 10px;
-  width: 90%;
-}
+  .form-container {
+    display: flex; /* Usar flexbox para centrar los elementos */
+    flex-direction: column; /* Alinear elementos en columna */
+    //align-items: center; /* Centrar elementos horizontalmente */
+    justify-content: center; /* Centrar elementos verticalmente */
+    height: 80%; /* Tomar toda la altura disponible */
+    padding: 20px; /* Añadir un poco de espacio alrededor del formulario */
+    width: 100%;
+  }
 
-ion-button {
-  --background: #00cc44; /* Color verde del botón */
-  --border-radius: 20px;
-  width: 90%;
-}
+  .custom-input {
+    margin-bottom: 15px; /* Espacio entre los campos de entrada */
+    --placeholder-color: #070707; /* Color del placeholder */
+    --background: rgb(255, 255, 255); /* Color de fondo del input */
+    --border-radius: 15px; /* Bordes redondeados */
+    --color: rgb(1, 1, 1); /* Color del texto en el input */
+    width: 100%; /* Ancho del input ajustado */
+  }
 
-.custom-input {
-  --padding-start: 10px; /* Espacio al inicio del campo de texto */
-  --padding-end: 10px; /* Espacio al final del campo de texto */
+  ion-button {
+    --background: #2feb00; /* Color de fondo del botón */
+    --border-radius: 20px; /* Bordes redondeados */
+    width: 100%; /* Ancho del botón ajustado */
+  }
+
+  .notificaciones {
+    color: rgb(204, 42, 42); /* Color del texto de notificaciones */
+    text-align: center; /* Alinear texto a la izquierda */
+    margin-top: -10px;
+  }
 }
