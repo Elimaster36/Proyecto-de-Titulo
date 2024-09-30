@@ -17,7 +17,6 @@ export class AuthService {
       const user = userCredential.user;
 
       // 2. Obtener el token del usuario autenticado en Firebase
-      const verified = user?.emailVerified || false;
 
       // 3. Guardar los datos del usuario en Firestore
       if (user) {
@@ -25,16 +24,20 @@ export class AuthService {
           user.uid,
           name,
           email,
-          password,
-          verified
+          password
         );
         return { user: user.uid, email: user.email };
       } else {
         return null;
       }
-    } catch (error) {
-      console.error('Error durante el registro:', error);
-      throw error;
+    } catch (error: any) {
+      if (error.code === 'auth/email-already-in-use') {
+        // Error específico de correo existente
+        throw new Error('El correo ya está registrado.');
+      } else {
+        console.error('Error durante el registro:', error);
+        throw error;
+      }
     }
   }
 

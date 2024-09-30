@@ -34,6 +34,14 @@
           <ion-icon name="warning" slot="start"></ion-icon>
           El correo no es válido
         </p>
+        <p
+          class="notificaciones"
+          *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.hasError('pattern')"
+        >
+          <ion-icon name="warning" slot="start"></ion-icon>
+          Por favor, ingresa un correo válido con dominio ejemplo:(gmail,
+          outlook, etc)
+        </p>
       </ion-text>
 
       <ion-item class="custom-input">

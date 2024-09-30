@@ -12,21 +12,29 @@ export class FirebaseService {
   ) {}
 
   async registerUser(email: string, password: string) {
-    return await this.afAuth.createUserWithEmailAndPassword(email, password);
+    const userCredential = await this.afAuth.createUserWithEmailAndPassword(
+      email,
+      password
+    );
+    const user = userCredential.user;
+
+    // Enviar correo de verificación
+    if (user) {
+      await user.sendEmailVerification();
+    }
+    return userCredential;
   }
 
   async saveUserData(
     uid: string,
     name: string,
     email: string,
-    password: string,
-    verified: boolean
+    password: string
   ) {
     return await this.firestore.collection('Usuarios').doc(uid).set({
       name,
       email,
       password,
-      email_verified: verified,
     });
   }
 
