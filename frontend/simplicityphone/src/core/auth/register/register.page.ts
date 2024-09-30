@@ -34,11 +34,12 @@ export class RegisterPage implements OnInit {
     });
   }
   ngOnInit() {}
+  showPassword = false;
 
   // Función para cambiar la visibilidad de la contraseña
-  //toggleMostrarContrasena() {
-  //  this.mostrarContrasena = !this.mostrarContrasena;
-  //}
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword; // Cambia el estado de visibilidad
+  }
 
   // Función que maneja el registro
   async onRegister() {

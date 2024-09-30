@@ -45,9 +45,16 @@
       </ion-text>
 
       <ion-item class="custom-input">
-        <ion-input formControlName="password" type="password"
+        <ion-input
+          formControlName="password"
+          [type]="showPassword ? 'text' : 'password'"
           >Contraseña</ion-input
         >
+        <ion-icon
+          [name]="showPassword ? 'eye-off' : 'eye'"
+          slot="end"
+          (click)="toggleShowPassword()"
+        ></ion-icon>
       </ion-item>
       <ion-text color="danger">
         <p

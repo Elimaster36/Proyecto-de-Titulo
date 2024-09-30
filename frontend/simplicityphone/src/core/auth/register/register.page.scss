@@ -30,6 +30,12 @@ form {
       text-align: center; /* Alinear texto a la izquierda */
       border-radius: 20px;
     }
+    ion-icon {
+      cursor: pointer; /* Cambia el cursor a mano al pasar sobre el ícono /
+      margin-left: 25px; / Espacio entre el input y el ícono */
+      transform: translateY(12px);
+      color: #070707;
+    }
   }
 
   .form-container {
