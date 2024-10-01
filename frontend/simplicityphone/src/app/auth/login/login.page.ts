@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,8 @@ export class LoginPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authFacade: AuthService,
-    private router: Router
+    private router: Router,
+    private alertController: AlertController
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -34,9 +36,36 @@ export class LoginPage implements OnInit {
       );
       console.log('Inicio de sesión exitoso', result);
       this.router.navigate(['/home']);
-    } catch (error) {
-      console.error('Error durante el inicio de sesión', error);
-      // Aquí podrías mostrar una alerta para indicar que hubo un error
+    } catch (error: any) {
+      if (!this.loginForm.value.email || !this.loginForm.value.password) {
+        this.presentAlert(
+          'Campos vacios',
+          'Por favor, ingresa todos los campos'
+        );
+      } else if (error.code === 'auth/invalid-credential') {
+        this.presentAlert(
+          'Credenciales Incorrectas',
+          'Por favor, ingrese credenciales correctas'
+        );
+      } else if (error.code === 'auth/invalid-email') {
+        this.presentAlert(
+          'Correo invalido',
+          'Por favor, ingrese un correo valido'
+        );
+      } else {
+        this.presentAlert('Error', 'Ocurrió un error inesperado');
+      }
     }
+  }
+
+  // Método para mostrar alertas
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
 }

@@ -1,56 +1,29 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Iniciar Sesión</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
+<ion-content class="ion-content">
   <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <ion-title>Iniciar Sesión</ion-title>
+
     <!-- Correo Electrónico -->
-    <ion-item class="custom-input">
+    <ion-item>
       <ion-input
         formControlName="email"
         placeholder="Correo Electrónico"
       ></ion-input>
     </ion-item>
-    <ion-text color="danger">
-      <p
-        class="notificaciones"
-        *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid && loginForm.get('email')?.value === ''"
-      >
-        <ion-icon name="warning" slot="start"></ion-icon>
-        El correo es obligatorio
-      </p>
-      <p
-        class="notificaciones"
-        *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].value && !loginForm.controls['email'].value.includes('@')"
-      >
-        <ion-icon name="warning" slot="start"></ion-icon>
-        El correo no es válido
-      </p>
-    </ion-text>
 
     <!-- Contraseña -->
-    <ion-item class="custom-input">
+    <ion-item>
       <ion-input
         formControlName="password"
         type="password"
         placeholder="Contraseña"
       ></ion-input>
     </ion-item>
-    <ion-text color="danger">
-      <p
-        class="notificaciones"
-        *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
-      >
-        <ion-icon name="warning" slot="start"></ion-icon>
-        La contraseña es obligatoria y debe tener al menos 8 caracteres
-      </p>
-    </ion-text>
-
+    <ion-text class="text-olvidar">¿Olvidaste tu contraseña?</ion-text>
     <!-- Botón de Iniciar Sesión -->
-    <ion-button expand="full" type="submit" [disabled]="loginForm.invalid">
-      Iniciar Sesión
+    <ion-button expand="block" type="submit"> Iniciar Sesión </ion-button>
+    <ion-text class="text-crear"> ¿No tienes una cuenta?</ion-text>
+    <ion-button expand="block" type="button" routerLink="/register">
+      Crear Cuenta
     </ion-button>
   </form>
 </ion-content>

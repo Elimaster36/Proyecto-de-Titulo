@@ -1,44 +1,83 @@
 /* Contenedor principal */
 ion-content {
-  --background: #f4f4f4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  --background: #118ceb;
+  text-align: center;
 }
 
 form {
-  display: flex;
-  flex-direction: column;
+  display: flex; /* Usar flexbox para centrar los elementos */
+  flex-direction: column; /* Alinear elementos en columna */
+  justify-content: center; /* Centrar elementos verticalmente */
+  height: auto; /* Ajustar la altura automáticamente */
+  padding: 20px; /* Añadir un poco de espacio alrededor del formulario */
+  max-width: 400px; /* Limitar el ancho máximo del contenedor */
+  margin-left: auto; /* Centrar horizontalmente */
+  margin-right: auto; /* Centrar horizontalmente */
+  border-radius: 8px;
   width: 100%;
-  max-width: 400px;
-  padding: 20px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
+  ion-title {
+    text-align: center;
+    background-color: #3bd415; /* Color verde */
+    padding: 10px; /* Espacio alrededor del título */
+    border-radius: 20px; /* Bordes redondeados */
+    margin-bottom: 20px; /* Espacio debajo del título */
+    width: 100%;
+    justify-content: center;
+  }
+  ion-item {
+    margin-bottom: 15px; /* Espacio entre los campos de entrada */
+    --placeholder-color: #070707; /* Color del placeholder */
+    --background: rgb(255, 255, 255); /* Color de fondo del input */
+    --border-radius: 20px; /* Bordes redondeados */
+    --color: rgb(1, 1, 1); /* Color del texto en el input */
+    width: 100%; /* Ancho del input ajustado */
+    ion-input {
+      --padding-top: 10px;
+      text-align: center;
+      font-size: large;
+      margin-bottom: 15px; /* Espacio entre los campos de entrada */
+      --padding-start: 10px;
+      margin-bottom: 15px; /* Espacio entre los campos de entrada */
+      --placeholder-color: #070707; /* Color del placeholder */
+      --background: rgb(255, 255, 255); /* Color de fondo del input */
+      --border-radius: 20px; /* Bordes redondeados */
+      --color: rgb(1, 1, 1); /* Color del texto en el input */
+      width: 100%; /* Ancho del input ajustado */
+    }
+  }
+  /* Botón de iniciar sesión */
+  ion-button {
+    --background: #2feb00; /* Color de fondo del botón */
+    --border-radius: 20px; /* Bordes redondeados */
+    width: 100%; /* Ancho del botón ajustado */
+  }
+  ion-button:active {
+    transform: scale(0.95);
+  }
 
-/* Inputs personalizados */
-.custom-input {
-  margin-bottom: 15px;
-  border-bottom: 1px solid #ccc;
-}
+  ion-button[disabled] {
+    --background: #2feb00;
+    --border-radius: 20px; /* Bordes redondeados */
+  }
+  ion-icon {
+    margin-right: 5px;
+  }
 
-ion-input {
-  --padding-start: 10px;
-  font-size: 16px;
-}
+  /* Estilo de los íconos de alerta */
+  ion-text[color="danger"] ion-icon {
+    color: #eb445a;
+  }
 
-/* Botón de iniciar sesión */
-ion-button {
-  margin-top: 20px;
-  --background: #3880ff;
-  --border-radius: 8px;
-  font-weight: bold;
-  font-size: 18px;
-}
+  /* Estilo del texto de alerta */
+  ion-text[color="danger"] p {
+    margin: 5px 0;
+    font-size: 14px;
+  }
 
-ion-button[disabled] {
-  --background: #ccc;
+  /* Ajuste de las alertas de validación */
+  ion-text p {
+    padding-left: 10px;
+  }
 }
 
 /* Mensajes de error */
@@ -67,23 +106,13 @@ ion-text[color="danger"] p {
 ion-text p {
   padding-left: 10px;
 }
-
-/* Para que el formulario esté centrado */
-ion-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.text-crear {
+  margin-top: 20px;
+  color: #070707;
 }
-
-form {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.custom-input {
-  --highlight-color-focused: #3880ff;
-  --border-color: #d3d3d3;
-  --border-radius: 8px;
+.text-olvidar {
+  margin-top: -5px;
+  margin-bottom: 10px;
+  margin-left: 172px;
+  color: #070707;
 }
