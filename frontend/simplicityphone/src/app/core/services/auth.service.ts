@@ -43,7 +43,16 @@ export class AuthService {
 
   // Método para iniciar sesión
   async loginUser(email: string, password: string) {
-    return await this.firebaseService.loginUser(email, password);
+    try {
+      const userCredential = await this.firebaseService.loginUser(
+        email,
+        password
+      );
+      return userCredential;
+    } catch (error) {
+      console.error('Error durante el inicio de sesión:', error);
+      throw error;
+    }
   }
 
   // Método para cerrar sesión

@@ -1,13 +1,56 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>login</ion-title>
+    <ion-title>Iniciar Sesión</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">login</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <!-- Correo Electrónico -->
+    <ion-item class="custom-input">
+      <ion-input
+        formControlName="email"
+        placeholder="Correo Electrónico"
+      ></ion-input>
+    </ion-item>
+    <ion-text color="danger">
+      <p
+        class="notificaciones"
+        *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid && loginForm.get('email')?.value === ''"
+      >
+        <ion-icon name="warning" slot="start"></ion-icon>
+        El correo es obligatorio
+      </p>
+      <p
+        class="notificaciones"
+        *ngIf="loginForm.controls['email'].touched && loginForm.controls['email'].value && !loginForm.controls['email'].value.includes('@')"
+      >
+        <ion-icon name="warning" slot="start"></ion-icon>
+        El correo no es válido
+      </p>
+    </ion-text>
+
+    <!-- Contraseña -->
+    <ion-item class="custom-input">
+      <ion-input
+        formControlName="password"
+        type="password"
+        placeholder="Contraseña"
+      ></ion-input>
+    </ion-item>
+    <ion-text color="danger">
+      <p
+        class="notificaciones"
+        *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+      >
+        <ion-icon name="warning" slot="start"></ion-icon>
+        La contraseña es obligatoria y debe tener al menos 8 caracteres
+      </p>
+    </ion-text>
+
+    <!-- Botón de Iniciar Sesión -->
+    <ion-button expand="full" type="submit" [disabled]="loginForm.invalid">
+      Iniciar Sesión
+    </ion-button>
+  </form>
 </ion-content>
