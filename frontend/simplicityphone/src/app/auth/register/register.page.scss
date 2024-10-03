@@ -3,6 +3,12 @@ ion-content {
   text-align: center; /* Centrar texto dentro del contenido */
 }
 
+ion-back-button {
+  --color: #ffffff; /* Cambiar color de la flecha */
+  --icon-size: 24px; /* Tamaño del ícono */
+  transform: translateX(-15px);
+}
+
 form {
   display: flex; /* Usar flexbox para centrar los elementos */
   flex-direction: column; /* Alinear elementos en columna */
@@ -23,30 +29,32 @@ form {
     justify-content: center;
   }
   ion-item {
+    text-align: center;
     ion-input {
       //display: block; /* Asegurar que el label se comporte como bloque */
-      margin-top: 10px; /* Espacio debajo del label */
+      //margin-top: 10px; /* Espacio debajo del label */
       color: rgb(0, 0, 0); /* Color del texto del label */
       text-align: center; /* Alinear texto a la izquierda */
       border-radius: 20px;
+      font-size: 16px;
     }
     ion-icon {
       cursor: pointer; /* Cambia el cursor a mano al pasar sobre el ícono /
-      margin-left: 25px; / Espacio entre el input y el ícono */
-      transform: translateY(12px);
+        margin-left: 25px; / Espacio entre el input y el ícono */
+      transform: translateY(-1px);
       color: #070707;
     }
   }
 
-  .form-container {
-    display: flex; /* Usar flexbox para centrar los elementos */
-    flex-direction: column; /* Alinear elementos en columna */
-    //align-items: center; /* Centrar elementos horizontalmente */
-    justify-content: center; /* Centrar elementos verticalmente */
-    height: 80%; /* Tomar toda la altura disponible */
-    padding: 20px; /* Añadir un poco de espacio alrededor del formulario */
-    width: 100%;
-  }
+  //.form-container {
+  //display: flex; /* Usar flexbox para centrar los elementos */
+  //flex-direction: column; /* Alinear elementos en columna */
+  //align-items: center; /* Centrar elementos horizontalmente */
+  //justify-content: center; /* Centrar elementos verticalmente */
+  //height: 80%; /* Tomar toda la altura disponible */
+  //padding: 20px; /* Añadir un poco de espacio alrededor del formulario */
+  //width: 100%;
+  //}
 
   .custom-input {
     margin-bottom: 15px; /* Espacio entre los campos de entrada */
@@ -59,6 +67,11 @@ form {
 
   ion-button {
     --background: #2feb00; /* Color de fondo del botón */
+    --border-radius: 20px; /* Bordes redondeados */
+    width: 100%; /* Ancho del botón ajustado */
+  }
+  .cancel-button {
+    --background: #ff0000; /* Color de fondo del botón */
     --border-radius: 20px; /* Bordes redondeados */
     width: 100%; /* Ancho del botón ajustado */
   }

@@ -5,19 +5,24 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () =>
-      import('../features/home/home.module').then((m) => m.HomePageModule),
+      import('./home/home.module').then((m) => m.HomePageModule),
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
     path: 'register',
     loadChildren: () =>
-      import('../core/auth/register/register.module').then(
+      import('./auth/register/register.module').then(
         (m) => m.RegisterPageModule
       ),
+  },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('./auth/login/login.module').then((m) => m.LoginPageModule),
   },
 ];
 
