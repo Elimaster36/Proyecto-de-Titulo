@@ -57,10 +57,13 @@ export class RegisterPage implements OnInit {
         'Te has registrado correctamente'
       );
 
-      this.router.navigate(['/home']);
+      this.router.navigate(['/login']);
     } catch (error: any) {
       if (error.message === 'El correo ya está registrado.') {
-        this.showAlert('Error', 'El correo ingresado ya está registrado.');
+        this.showAlert(
+          'Correo Duplicado',
+          'El correo ingresado ya está registrado, por favor ingrese un correo nuevo.'
+        );
       } else {
         console.error('Error durante el registro', error);
       }
