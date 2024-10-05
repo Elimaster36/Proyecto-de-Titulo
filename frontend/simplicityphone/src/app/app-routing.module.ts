@@ -24,6 +24,41 @@ const routes: Routes = [
     loadChildren: () =>
       import('./auth/login/login.module').then((m) => m.LoginPageModule),
   },
+  {
+    path: 'configuration-settings',
+    loadChildren: () =>
+      import(
+        './configuration/pages/configuration-settings/configuration-settings.module'
+      ).then((m) => m.ConfigurationSettingsPageModule),
+  },
+  {
+    path: 'background-settings',
+    loadChildren: () =>
+      import(
+        './configuration/pages/background-settings/background-settings.module'
+      ).then((m) => m.BackgroundSettingsPageModule),
+  },
+  {
+    path: 'buttons-settings',
+    loadChildren: () =>
+      import(
+        './configuration/pages/buttons-settings/buttons-settings.module'
+      ).then((m) => m.ButtonsSettingsPageModule),
+  },
+  {
+    path: 'who-am-i',
+    loadChildren: () =>
+      import('./configuration/pages/who-am-i/who-am-i.module').then(
+        (m) => m.WhoAmIPageModule
+      ),
+  },
+  {
+    path: 'tutorials',
+    loadChildren: () =>
+      import('./configuration/pages/tutorials/tutorials.module').then(
+        (m) => m.TutorialsPageModule
+      ),
+  },
 ];
 
 @NgModule({

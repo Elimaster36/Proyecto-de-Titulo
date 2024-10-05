@@ -26,6 +26,11 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {}
 
+  showPassword = false;
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword; // Cambia el estado de visibilidad
+  }
+
   // Función que maneja el inicio de sesión
   async onLogin() {
     // Solo continúa si todos los campos son válidos

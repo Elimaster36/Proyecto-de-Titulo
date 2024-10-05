@@ -6,17 +6,24 @@
     <ion-item>
       <ion-input
         formControlName="email"
-        placeholder="Correo Electrónico"
+        placeholder="Correo Electrónico Maximo 50 caracteres"
+        maxlength="50"
       ></ion-input>
     </ion-item>
 
     <!-- Contraseña -->
-    <ion-item>
+    <ion-item class="custom-input">
       <ion-input
         formControlName="password"
-        type="password"
-        placeholder="Contraseña"
+        [type]="showPassword ? 'text' : 'password'"
+        placeholder="Contraseña Maximo 20 caracteres"
+        maxlength="20"
       ></ion-input>
+      <ion-icon
+        [name]="showPassword ? 'eye-off' : 'eye'"
+        slot="end"
+        (click)="toggleShowPassword()"
+      ></ion-icon>
     </ion-item>
     <ion-text class="text-olvidar">¿Olvidaste tu contraseña?</ion-text>
     <!-- Botón de Iniciar Sesión -->

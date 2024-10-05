@@ -1,27 +1,43 @@
-#container {
+.menu-content {
+  --background: #ffffff;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  --padding-top: 20px;
+}
+
+.clock-container {
   text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  margin-top: 20px;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.time {
+  font-size: 70px;
+  font-weight: bold;
+  color: black;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+.date {
+  font-size: 25px;
+  color: black;
 }
 
-#container a {
-  text-decoration: none;
+.menu-btn {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  --border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+ion-grid {
+  padding-left: 30px;
+  padding-top: 30px;
+}
+
+ion-icon {
+  font-size: 32px;
 }

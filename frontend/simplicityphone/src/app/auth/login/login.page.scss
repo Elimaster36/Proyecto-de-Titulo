@@ -29,7 +29,7 @@ form {
     --placeholder-color: #070707; /* Color del placeholder */
     --background: rgb(255, 255, 255); /* Color de fondo del input */
     --border-radius: 20px; /* Bordes redondeados */
-    --color: rgb(1, 1, 1); /* Color del texto en el input */
+    --color: rgb(0, 0, 0); /* Color del texto en el input */
     width: 100%; /* Ancho del input ajustado */
     ion-input {
       --padding-top: 10px;
@@ -61,6 +61,8 @@ form {
   }
   ion-icon {
     margin-right: 5px;
+    color: black;
+    transform: translateY(-3px);
   }
 
   /* Estilo de los íconos de alerta */
@@ -115,4 +117,12 @@ ion-text p {
   margin-bottom: 10px;
   margin-left: 172px;
   color: #070707;
+}
+.custom-input {
+  margin-bottom: 15px; /* Espacio entre los campos de entrada */
+  --placeholder-color: #070707; /* Color del placeholder */
+  --background: rgb(255, 255, 255); /* Color de fondo del input */
+  --border-radius: 15px; /* Bordes redondeados */
+  --color: rgb(1, 1, 1); /* Color del texto en el input */
+  width: 100%; /* Ancho del input ajustado */
 }
