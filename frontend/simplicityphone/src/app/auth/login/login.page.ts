@@ -14,7 +14,7 @@ export class LoginPage implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authFacade: AuthService,
+    private authService: AuthService,
     private router: Router,
     private alertController: AlertController
   ) {
@@ -33,21 +33,26 @@ export class LoginPage implements OnInit {
 
   // Función que maneja el inicio de sesión
   async onLogin() {
+    if (this.loginForm.invalid) {
+      // Si los campos están vacíos, mostrar la alerta correspondiente
+      if (!this.loginForm.value.email || !this.loginForm.value.password) {
+        await this.presentAlert(
+          'Campos vacios',
+          'Por favor, ingresa todos los campos'
+        );
+      }
+      return; // Detener la ejecución si los campos están vacíos
+    }
     // Solo continúa si todos los campos son válidos
     try {
-      const result = await this.authFacade.loginUser(
+      const result = await this.authService.loginUser(
         this.loginForm.value.email,
         this.loginForm.value.password
       );
       console.log('Inicio de sesión exitoso', result);
       this.router.navigate(['/home']);
     } catch (error: any) {
-      if (!this.loginForm.value.email || !this.loginForm.value.password) {
-        this.presentAlert(
-          'Campos vacios',
-          'Por favor, ingresa todos los campos'
-        );
-      } else if (error.code === 'auth/invalid-credential') {
+      if (error.code === 'auth/invalid-credential') {
         this.presentAlert(
           'Credenciales Incorrectas',
           'Por favor, ingrese credenciales correctas'

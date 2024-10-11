@@ -30,6 +30,7 @@
     "@capacitor/status-bar": "6.0.1",
     "@ionic/angular": "^8.0.0",
     "@supabase/supabase-js": "^2.45.4",
+    "cordova-plugin-device-apps": "^0.0.2",
     "firebase": "^10.13.2",
     "ionicons": "^7.0.0",
     "rxjs": "~7.8.0",
@@ -58,8 +59,10 @@
     "jasmine-core": "~5.1.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~6.4.0",
+    "karma-brave-launcher": "^1.0.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
+    "karma-edge-launcher": "^0.4.2",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.4.0"
