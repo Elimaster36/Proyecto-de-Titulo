@@ -1,0 +1,17 @@
+<ion-content>
+  <!-- Botón de retroceso y título -->
+  <div class="custom-header">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <h1>Fondo de Pantalla</h1>
+  </div>
+  <ion-list>
+    <ion-item
+      *ngFor="let app of installedApps"
+      (click)="openApp(app.packageName)"
+    >
+      <ion-label>{{ app.name }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

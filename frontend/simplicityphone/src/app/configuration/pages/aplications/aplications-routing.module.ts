@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BackgroundSettingsPage } from './background-settings.page';
+
+import { AplicationsPage } from './aplications.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: BackgroundSettingsPage,
-  },
+    component: AplicationsPage
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class BackgroundSettingsPageRoutingModule {}
+export class AplicationsPageRoutingModule {}

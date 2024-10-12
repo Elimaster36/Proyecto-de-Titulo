@@ -1,37 +1,35 @@
+declare var cordova: any;
 import { Injectable } from '@angular/core';
-import {
-  AppLauncher,
-  AppLauncherOptions,
-} from '@ionic-native/app-launcher/ngx';
-import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppManagementService {
-  constructor(private appLauncher: AppLauncher, private platform: Platform) {}
+  constructor() {}
+  getInstalledApps(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      // Usa el plugin para obtener la lista de aplicaciones
+      cordova.plugins.appLauncher.getInstalledApps(
+        (apps: any) => {
+          resolve(apps);
+        },
+        (error: any) => {
+          reject(error);
+        }
+      );
+    });
+  }
 
-  openAppLauncher() {
-    if (this.platform.is('android')) {
-      try {
-        // Intent para abrir el lanzador de aplicaciones en Android
-        const options: AppLauncherOptions = {
-          packageName: 'com.android.launcher', // Esto es el lanzador por defecto de Android
-        };
-
-        this.appLauncher.launch(options).then(
-          () => {
-            console.log('Lanzador de aplicaciones abierto');
-          },
-          (err) => {
-            console.error('Error abriendo el lanzador de aplicaciones', err);
-          }
-        );
-      } catch (error) {
-        console.error('Error ejecutando el lanzador de aplicaciones', error);
+  openApp(packageName: string): void {
+    // Usa el plugin para abrir la aplicación
+    cordova.plugins.appLauncher.launch(
+      packageName,
+      (success: any) => {
+        console.log('Aplicación abierta', success);
+      },
+      (error: any) => {
+        console.error('Error al abrir la aplicación', error);
       }
-    } else {
-      console.log('Plataforma no compatible');
-    }
+    );
   }
 }

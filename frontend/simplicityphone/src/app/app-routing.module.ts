@@ -39,13 +39,6 @@ const routes: Routes = [
       ).then((m) => m.BackgroundSettingsPageModule),
   },
   {
-    path: 'aplications-settings',
-    loadChildren: () =>
-      import(
-        './configuration/pages/aplications-settings/aplications-settings.page'
-      ).then((m) => m.AplicationsSettingsPage),
-  },
-  {
     path: 'who-am-i',
     loadChildren: () =>
       import('./configuration/pages/who-am-i/who-am-i.module').then(
@@ -58,7 +51,11 @@ const routes: Routes = [
       import('./configuration/pages/tutorials/tutorials.module').then(
         (m) => m.TutorialsPageModule
       ),
+  },  {
+    path: 'aplications',
+    loadChildren: () => import('./configuration/pages/aplications/aplications.module').then( m => m.AplicationsPageModule)
   },
+
 ];
 
 @NgModule({

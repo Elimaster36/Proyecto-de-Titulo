@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
 import { ConfigurationSettingsPageRoutingModule } from './configuration-settings-routing.module';
-
 import { ConfigurationSettingsPage } from './configuration-settings.page';
 
 @NgModule({
@@ -13,8 +10,8 @@ import { ConfigurationSettingsPage } from './configuration-settings.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ConfigurationSettingsPageRoutingModule
+    ConfigurationSettingsPageRoutingModule,
   ],
-  declarations: [ConfigurationSettingsPage]
+  declarations: [ConfigurationSettingsPage],
 })
 export class ConfigurationSettingsPageModule {}

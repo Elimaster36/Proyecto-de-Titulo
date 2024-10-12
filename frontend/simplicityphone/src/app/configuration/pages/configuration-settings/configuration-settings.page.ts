@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppManagementService } from '../../services/app-management.service';
 
 @Component({
   selector: 'app-configuration-settings',
@@ -8,10 +7,7 @@ import { AppManagementService } from '../../services/app-management.service';
   styleUrls: ['./configuration-settings.page.scss'],
 })
 export class ConfigurationSettingsPage implements OnInit {
-  constructor(
-    private router: Router,
-    private appManagementService: AppManagementService
-  ) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {}
 
@@ -19,8 +15,8 @@ export class ConfigurationSettingsPage implements OnInit {
     this.router.navigate(['/background-settings']); // Navegar a la página de fondo de pantalla
   }
 
-  openButtonSettings() {
-    this.router.navigate(['/buttons-settings']); // Navegar a la página de botones
+  openAplicationsSettings() {
+    this.router.navigate(['/aplications']); // Navegar a la página de botones
   }
 
   openWhoAmI() {
@@ -29,10 +25,6 @@ export class ConfigurationSettingsPage implements OnInit {
 
   openTutorials() {
     this.router.navigate(['/tutorials']); // Navegar a la página de tutoriales
-  }
-
-  openApplications() {
-    this.appManagementService.openAppLauncher();
   }
 
   logout() {
