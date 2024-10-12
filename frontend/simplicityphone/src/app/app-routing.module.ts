@@ -39,11 +39,11 @@ const routes: Routes = [
       ).then((m) => m.BackgroundSettingsPageModule),
   },
   {
-    path: 'buttons-settings',
+    path: 'aplications-settings',
     loadChildren: () =>
       import(
-        './configuration/pages/buttons-settings/buttons-settings.module'
-      ).then((m) => m.ButtonsSettingsPageModule),
+        './configuration/pages/aplications-settings/aplications-settings.page'
+      ).then((m) => m.AplicationsSettingsPage),
   },
   {
     path: 'who-am-i',

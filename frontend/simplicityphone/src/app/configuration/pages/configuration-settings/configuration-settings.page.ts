@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppManagementService } from '../../services/app-management.service';
 
 @Component({
   selector: 'app-configuration-settings',
@@ -7,7 +8,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./configuration-settings.page.scss'],
 })
 export class ConfigurationSettingsPage implements OnInit {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private appManagementService: AppManagementService
+  ) {}
 
   ngOnInit() {}
 
@@ -25,6 +29,10 @@ export class ConfigurationSettingsPage implements OnInit {
 
   openTutorials() {
     this.router.navigate(['/tutorials']); // Navegar a la página de tutoriales
+  }
+
+  openApplications() {
+    this.appManagementService.openAppLauncher();
   }
 
   logout() {

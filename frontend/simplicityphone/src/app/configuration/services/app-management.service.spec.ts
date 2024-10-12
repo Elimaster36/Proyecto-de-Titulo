@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ButtonsconfigService } from './buttonsconfig.service';
+import { AppManagementService } from './app-management.service';
 
-describe('ButtonsconfigService', () => {
-  let service: ButtonsconfigService;
+describe('AppListService', () => {
+  let service: AppManagementService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ButtonsconfigService);
+    service = TestBed.inject(AppManagementService);
   });
 
   it('should be created', () => {
