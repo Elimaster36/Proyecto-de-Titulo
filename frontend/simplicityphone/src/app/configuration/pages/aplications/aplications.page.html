@@ -4,14 +4,15 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <h1>Fondo de Pantalla</h1>
+    <h1>Aplicaciones</h1>
   </div>
+
   <ion-list>
     <ion-item
       *ngFor="let app of installedApps"
       (click)="openApp(app.packageName)"
     >
-      <ion-label>{{ app.name }}</ion-label>
+      {{ app.name }}
     </ion-item>
   </ion-list>
 </ion-content>

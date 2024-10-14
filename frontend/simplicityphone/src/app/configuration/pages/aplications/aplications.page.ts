@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppManagementService } from '../../services/app-management.service';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-aplications',
@@ -9,24 +10,41 @@ import { AppManagementService } from '../../services/app-management.service';
 export class AplicationsPage implements OnInit {
   installedApps: any[] = [];
 
-  constructor(private appManagementService: AppManagementService) {}
-
-  ngOnInit() {
-    this.loadInstalledApps();
+  constructor(
+    private platform: Platform,
+    private appManagementService: AppManagementService
+  ) {
+    this.platform
+      .ready()
+      .then(() => {
+        this.loadInstalledApps();
+      })
+      .catch((error) => {
+        console.error('Error al preparar la plataforma:', error);
+      });
   }
+
+  ngOnInit() {}
 
   loadInstalledApps() {
     this.appManagementService
       .getInstalledApps()
-      .then((apps: any) => {
+      .then((apps) => {
         this.installedApps = apps;
       })
       .catch((error) => {
-        console.error('Error al obtener aplicaciones instaladas', error);
+        console.error('Error al obtener las aplicaciones instaladas:', error);
       });
   }
 
   openApp(packageName: string) {
-    this.appManagementService.openApp(packageName);
+    this.appManagementService
+      .openApp(packageName)
+      .then(() => {
+        console.log('Aplicación abierta');
+      })
+      .catch((error) => {
+        console.error('Error al abrir la aplicación:', error);
+      });
   }
 }

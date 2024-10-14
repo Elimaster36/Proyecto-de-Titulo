@@ -1,0 +1,56 @@
+<ion-content>
+  <!-- Botón de retroceso y título -->
+  <div class="custom-header">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <h1>Configuración de Tamaño</h1>
+  </div>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Tamaño de Texto</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-range
+          min="14"
+          max="30"
+          [(ngModel)]="fontSize"
+          (ionChange)="updatePreferences()"
+        >
+          <ion-label slot="start">14px</ion-label>
+          <ion-label slot="end">30px</ion-label>
+        </ion-range>
+      </ion-item>
+      <p [ngStyle]="{'font-size': fontSize + 'px'}">
+        Vista previa del tamaño de texto: {{fontSize}}px
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Tamaño de Botones</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-range
+          min="30"
+          max="100"
+          [(ngModel)]="buttonSize"
+          (ionChange)="updatePreferences()"
+        >
+          <ion-label slot="start">Pequeño</ion-label>
+          <ion-label slot="end">Grande</ion-label>
+        </ion-range>
+      </ion-item>
+      <ion-button
+        [ngStyle]="{'height.px': buttonSize, 'font-size': (buttonSize / 3) + 'px'}"
+        >Botón de Ejemplo</ion-button
+      >
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button expand="full" (click)="saveChanges()">Guardar Cambios</ion-button>
+</ion-content>

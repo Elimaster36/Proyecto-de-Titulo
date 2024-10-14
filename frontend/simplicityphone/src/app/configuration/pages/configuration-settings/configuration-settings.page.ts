@@ -19,6 +19,10 @@ export class ConfigurationSettingsPage implements OnInit {
     this.router.navigate(['/aplications']); // Navegar a la página de botones
   }
 
+  openSizeConfiguration() {
+    this.router.navigate(['/size-configuration']); // Navegar a la página de configuracion de tamaño
+  }
+
   openWhoAmI() {
     this.router.navigate(['/who-am-i']); // Navegar a la página "Quien Soy"
   }
