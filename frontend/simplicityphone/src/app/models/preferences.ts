@@ -1,4 +1,5 @@
 export interface Preferences {
-  fontSize: number;
-  buttonSize: number;
+  text_size: number;
+  button_size: number;
+  image_size: number;
 }

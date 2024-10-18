@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { SizeConfigurationPageRoutingModule } from './size-configuration-routing.module';
 import { SizeConfigurationPage } from './size-configuration.page';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -11,6 +12,7 @@ import { SizeConfigurationPage } from './size-configuration.page';
     FormsModule,
     IonicModule,
     SizeConfigurationPageRoutingModule,
+    ReactiveFormsModule,
   ],
   declarations: [SizeConfigurationPage],
 })

@@ -7,50 +7,26 @@
     <h1>Configuración de Tamaño</h1>
   </div>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Tamaño de Texto</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-item>
-        <ion-range
-          min="14"
-          max="30"
-          [(ngModel)]="fontSize"
-          (ionChange)="updatePreferences()"
-        >
-          <ion-label slot="start">14px</ion-label>
-          <ion-label slot="end">30px</ion-label>
-        </ion-range>
-      </ion-item>
-      <p [ngStyle]="{'font-size': fontSize + 'px'}">
-        Vista previa del tamaño de texto: {{fontSize}}px
-      </p>
-    </ion-card-content>
-  </ion-card>
+  <form [formGroup]="preferencesForm" (ngSubmit)="savePreferences()">
+    <ion-item>
+      <ion-label>Button Size</ion-label>
+      <ion-input type="number" formControlName="button_size"></ion-input>
+    </ion-item>
 
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Tamaño de Botones</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-item>
-        <ion-range
-          min="30"
-          max="100"
-          [(ngModel)]="buttonSize"
-          (ionChange)="updatePreferences()"
-        >
-          <ion-label slot="start">Pequeño</ion-label>
-          <ion-label slot="end">Grande</ion-label>
-        </ion-range>
-      </ion-item>
-      <ion-button
-        [ngStyle]="{'height.px': buttonSize, 'font-size': (buttonSize / 3) + 'px'}"
-        >Botón de Ejemplo</ion-button
-      >
-    </ion-card-content>
-  </ion-card>
+    <ion-item>
+      <ion-label>Text Size</ion-label>
+      <ion-input type="number" formControlName="text_size"></ion-input>
+    </ion-item>
 
-  <ion-button expand="full" (click)="saveChanges()">Guardar Cambios</ion-button>
+    <ion-item>
+      <ion-label>Image Size</ion-label>
+      <ion-input type="number" formControlName="image_size"></ion-input>
+    </ion-item>
+
+    <ion-button type="submit" [disabled]="!preferencesForm.valid"
+      >Save Preferences</ion-button
+    >
+  </form>
+
+  <ion-button (click)="savePreferences()">Save Preferences</ion-button>
 </ion-content>

@@ -11,6 +11,7 @@ import { AlertController } from '@ionic/angular';
 })
 export class RegisterPage implements OnInit {
   registerForm: FormGroup;
+  showPassword = false;
 
   constructor(
     private fb: FormBuilder,
@@ -33,39 +34,45 @@ export class RegisterPage implements OnInit {
       password: ['', [Validators.required, Validators.minLength(8)]],
     });
   }
-  ngOnInit() {}
-  showPassword = false;
 
-  // Función para cambiar la visibilidad de la contraseña
+  ngOnInit() {}
+
   toggleShowPassword() {
     this.showPassword = !this.showPassword; // Cambia el estado de visibilidad
   }
 
-  // Función que maneja el registro
   async onRegister() {
-    // Solo continúa si todos los campos son válidos
+    // Verifica si el formulario de registro es inválido
+    if (this.registerForm.invalid) {
+      // Si los campos son inválidos, no continúa
+      return;
+    }
     try {
+      // Llama al método del servicio para registrar el usuario
       const result = await this.auth.registerUser(
+        this.registerForm.value.name,
         this.registerForm.value.email,
-        this.registerForm.value.password,
-        this.registerForm.value.name
+        this.registerForm.value.password
       );
+      // Registro exitoso
       console.log('Registro exitoso', result);
-
       await this.showSuccessAlert(
         'Registro Exitoso',
         'Te has registrado correctamente'
       );
-
+      // Redirige al login después del registro exitoso
       this.router.navigate(['/login']);
     } catch (error: any) {
-      if (error.message === 'El correo ya está registrado.') {
+      // Maneja errores específicos del registro
+      if (error.error && error.error.detail === 'Email already registered') {
         this.showAlert(
           'Correo Duplicado',
           'El correo ingresado ya está registrado, por favor ingrese un correo nuevo.'
         );
       } else {
+        // Maneja cualquier otro error inesperado
         console.error('Error durante el registro', error);
+        this.showAlert('Error', 'Ocurrió un error inesperado');
       }
     }
   }

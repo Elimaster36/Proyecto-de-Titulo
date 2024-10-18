@@ -11,6 +11,7 @@ import { AlertController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
   loginForm: FormGroup;
+  showPassword = false;
 
   constructor(
     private fb: FormBuilder,
@@ -26,12 +27,10 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {}
 
-  showPassword = false;
   toggleShowPassword() {
     this.showPassword = !this.showPassword; // Cambia el estado de visibilidad
   }
 
-  // Función que maneja el inicio de sesión
   async onLogin() {
     if (this.loginForm.invalid) {
       // Si los campos están vacíos, mostrar la alerta correspondiente
@@ -52,12 +51,15 @@ export class LoginPage implements OnInit {
       console.log('Inicio de sesión exitoso', result);
       this.router.navigate(['/home']);
     } catch (error: any) {
-      if (error.code === 'auth/invalid-credential') {
+      if (error.error && error.error.detail === 'Invalid email or password') {
         this.presentAlert(
           'Credenciales Incorrectas',
           'Por favor, ingrese credenciales correctas'
         );
-      } else if (error.code === 'auth/invalid-email') {
+      } else if (
+        error.error &&
+        error.error.detail === 'Authorization header missing'
+      ) {
         this.presentAlert(
           'Correo invalido',
           'Por favor, ingrese un correo valido'
@@ -68,14 +70,12 @@ export class LoginPage implements OnInit {
     }
   }
 
-  // Método para mostrar alertas
   async presentAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header: header,
       message: message,
       buttons: ['OK'],
     });
-
     await alert.present();
   }
 }
