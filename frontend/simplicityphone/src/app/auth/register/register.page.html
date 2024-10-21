@@ -6,7 +6,11 @@
     <ion-title>Registro de Sesión</ion-title>
 
     <ion-item class="custom-input">
-      <ion-input formControlName="name" placeholder="Nombre"></ion-input>
+      <ion-input
+        formControlName="name"
+        placeholder="Nombre Maximo 30 caracteres"
+        maxlength="30"
+      ></ion-input>
     </ion-item>
     <ion-text color="danger">
       <p
@@ -21,7 +25,8 @@
     <ion-item class="custom-input">
       <ion-input
         formControlName="email"
-        placeholder="Correo Electrónico"
+        placeholder="Correo Electrónico Maximo 50 caracteres"
+        maxlength="50"
       ></ion-input>
     </ion-item>
     <ion-text color="danger">
@@ -53,7 +58,8 @@
       <ion-input
         formControlName="password"
         [type]="showPassword ? 'text' : 'password'"
-        placeholder="Contraseña"
+        placeholder="Contraseña Maximo 20 caracteres"
+        maxlength="20"
       ></ion-input>
       <ion-icon
         [name]="showPassword ? 'eye-off' : 'eye'"

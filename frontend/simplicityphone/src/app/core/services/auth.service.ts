@@ -1,62 +1,62 @@
 import { Injectable } from '@angular/core';
-import { FirebaseService } from './firebase.service';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
+import { initializeApp } from 'firebase/app';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
+import { environment } from 'src/environments/environment';
+
+const API_URL = 'http://127.0.0.1:8000/api/v1';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private firebaseService: FirebaseService) {}
+  private auth = getAuth(initializeApp(environment.firebaseConfig));
 
-  async registerUser(email: string, password: string, name: string) {
+  constructor(private http: HttpClient) {}
+
+  async registerUser(
+    name: string,
+    email: string,
+    password: string
+  ): Promise<any> {
     try {
-      // 1. Registrar el usuario en Firebase
-      const userCredential = await this.firebaseService.registerUser(
+      const userCredential = await createUserWithEmailAndPassword(
+        this.auth,
         email,
         password
       );
-      const user = userCredential.user;
-
-      // 2. Obtener el token del usuario autenticado en Firebase
-
-      // 3. Guardar los datos del usuario en Firestore
-      if (user) {
-        await this.firebaseService.saveUserData(
-          user.uid,
+      const idToken = await userCredential.user?.getIdToken();
+      return firstValueFrom(
+        this.http.post(`${API_URL}/register`, {
           name,
           email,
-          password
-        );
-        return { user: user.uid, email: user.email };
-      } else {
-        return null;
-      }
-    } catch (error: any) {
-      if (error.code === 'auth/email-already-in-use') {
-        // Error específico de correo existente
-        throw new Error('El correo ya está registrado.');
-      } else {
-        console.error('Error durante el registro:', error);
-        throw error;
-      }
-    }
-  }
-
-  // Método para iniciar sesión
-  async loginUser(email: string, password: string) {
-    try {
-      const userCredential = await this.firebaseService.loginUser(
-        email,
-        password
+          password,
+          idToken,
+        })
       );
-      return userCredential;
     } catch (error) {
-      console.error('Error durante el inicio de sesión:', error);
       throw error;
     }
   }
 
-  // Método para cerrar sesión
-  async logoutUser() {
-    return await this.firebaseService.logoutUser();
+  async loginUser(email: string, password: string): Promise<any> {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        this.auth,
+        email,
+        password
+      );
+      const idToken = await userCredential.user?.getIdToken();
+      return firstValueFrom(
+        this.http.post(`${API_URL}/login`, { email, password, idToken })
+      );
+    } catch (error) {
+      throw error;
+    }
   }
 }

@@ -1,0 +1,32 @@
+ion-content {
+  --background: #ffffff;
+}
+
+ion-item {
+  --background: #ffffff;
+  color: black;
+}
+
+ion-list {
+  background: #ffffff;
+}
+
+.custom-header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  color: black;
+}
+
+.custom-header ion-buttons {
+  margin-right: 10px;
+  transform: translateX(-8px);
+}
+
+.custom-header h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 30px;
+  padding-left: 30px;
+}
