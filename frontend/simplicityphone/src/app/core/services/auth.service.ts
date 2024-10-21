@@ -8,6 +8,8 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { environment } from 'src/environments/environment';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { getToken } from 'firebase/app-check';
 
 const API_URL = 'http://127.0.0.1:8000/api/v1';
 
@@ -17,7 +19,7 @@ const API_URL = 'http://127.0.0.1:8000/api/v1';
 export class AuthService {
   private auth = getAuth(initializeApp(environment.firebaseConfig));
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private afAuth: AngularFireAuth) {}
 
   async registerUser(
     name: string,
@@ -58,5 +60,13 @@ export class AuthService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async getToken() {
+    const user = await this.afAuth.currentUser;
+    if (user) {
+      return user.getIdToken(); // Este es el UID del usuario autenticado en Firebase
+    }
+    return null;
   }
 }

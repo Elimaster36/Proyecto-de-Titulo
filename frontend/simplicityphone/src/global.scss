@@ -35,3 +35,21 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+:root {
+  --font-size: 16px;
+  --button-height: 40px;
+  --icon-size: 24px;
+}
+
+body {
+  font-size: var(--font-size);
+}
+
+ion-button {
+  height: var(--button-height);
+}
+
+ion-icon {
+  font-size: var(--icon-size);
+}

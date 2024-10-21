@@ -4,29 +4,42 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <h1>Configuración de Tamaño</h1>
+    <h1>Configuración</h1>
   </div>
 
-  <form [formGroup]="preferencesForm" (ngSubmit)="savePreferences()">
+  <ion-content>
     <ion-item>
-      <ion-label>Button Size</ion-label>
-      <ion-input type="number" formControlName="button_size"></ion-input>
+      <ion-label> Tamaño de Fuente </ion-label>
+      <ion-input
+        [(ngModel)]="fontSize"
+        type="number"
+        min="10"
+        max="50"
+      ></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label>Text Size</ion-label>
-      <ion-input type="number" formControlName="text_size"></ion-input>
+      <ion-label> Altura del Botón </ion-label>
+      <ion-input
+        [(ngModel)]="buttonHeight"
+        type="number"
+        min="20"
+        max="100"
+      ></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label>Image Size</ion-label>
-      <ion-input type="number" formControlName="image_size"></ion-input>
+      <ion-label> Tamaño del Ícono </ion-label>
+      <ion-input
+        [(ngModel)]="iconSize"
+        type="number"
+        min="16"
+        max="64"
+      ></ion-input>
     </ion-item>
 
-    <ion-button type="submit" [disabled]="!preferencesForm.valid"
-      >Save Preferences</ion-button
+    <ion-button expand="full" (click)="saveSettings()"
+      >Guardar Configuraciones</ion-button
     >
-  </form>
-
-  <ion-button (click)="savePreferences()">Save Preferences</ion-button>
+  </ion-content>
 </ion-content>

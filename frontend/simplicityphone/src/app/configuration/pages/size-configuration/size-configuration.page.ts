@@ -1,54 +1,70 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FirebaseService } from 'src/app/core/services/firebase.service';
-import { Preferences } from 'src/app/models/preferences';
+import { PreferencesService } from '../../services/preferences.service';
+import { firstValueFrom } from 'rxjs';
+
 @Component({
   selector: 'app-size-configuration',
   templateUrl: './size-configuration.page.html',
   styleUrls: ['./size-configuration.page.scss'],
 })
 export class SizeConfigurationPage implements OnInit {
-  preferencesForm: FormGroup;
+  // El ID del usuario, que puede provenir de Firebase o del estado actual del usuario
+  fontSize: number = 16;
+  buttonHeight: number = 40;
+  iconSize: number = 24;
 
-  constructor(
-    private firebaseService: FirebaseService,
-    private fb: FormBuilder
-  ) {
-    this.preferencesForm = this.fb.group({
-      button_size: [12, Validators.required],
-      text_size: [14, Validators.required],
-      image_size: [16, Validators.required],
-    });
-  }
+  constructor(private preferencesService: PreferencesService) {}
 
   ngOnInit() {
-    this.loadPreferences();
+    this.loadSettings();
+    this.updateCSSVariables();
   }
 
-  loadPreferences() {
-    this.firebaseService.getPreferences().subscribe((prefs: Preferences) => {
-      this.preferencesForm.patchValue({
-        button_size: prefs.button_size,
-        text_size: prefs.text_size,
-        image_size: prefs.image_size,
-      });
-    });
-  }
-
-  savePreferences() {
-    if (this.preferencesForm.valid) {
-      const preferences: Preferences = this.preferencesForm.value;
-      this.firebaseService.updatePreferences(preferences).subscribe({
-        next: () => {
-          console.log('Preferences updated successfully');
-        },
-        error: (error) => {
-          console.error('Error updating preferences:', error);
-        },
-        complete: () => {
-          console.log('Preferences update complete');
-        },
-      });
+  // Cargar las configuraciones existentes
+  async loadSettings() {
+    try {
+      const settings: any = await firstValueFrom(
+        await this.preferencesService.getUISettings()
+      );
+      this.fontSize = settings.font_size;
+      this.buttonHeight = settings.button_height;
+      this.iconSize = settings.icon_size;
+    } catch (error) {
+      console.error('Error al cargar las configuraciones:', error);
     }
+  }
+
+  // Guardar las configuraciones
+  async saveSettings() {
+    try {
+      await firstValueFrom(
+        await this.preferencesService.updateUISettings(
+          this.fontSize,
+          this.buttonHeight,
+          this.iconSize
+        )
+      )
+        .then(() => this.updateCSSVariables())
+        .catch((error) =>
+          console.error('Error al actualizar las configuraciones:', error)
+        );
+      console.log('Configuraciones actualizadas correctamente');
+    } catch (error) {
+      console.error('Error al actualizar las configuraciones:', error);
+    }
+  }
+  updateCSSVariables() {
+    document.documentElement.style.setProperty(
+      '--font-size',
+      `${this.fontSize}px`
+    );
+    document.documentElement.style.setProperty(
+      '--button-height',
+      `${this.buttonHeight}px`
+    );
+    document.documentElement.style.setProperty(
+      '--icon-size',
+      `${this.iconSize}px`
+    );
   }
 }

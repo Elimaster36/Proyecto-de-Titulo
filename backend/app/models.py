@@ -1,8 +1,6 @@
-from sqlalchemy import Column, Integer, String, DateTime
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.sql import func
-
-Base = declarative_base()
+from sqlalchemy import Column, Integer, String, TIMESTAMP, func
+from sqlalchemy.orm import relationship
+from app.dependencies import Base
 
 class User(Base):
     __tablename__ = "users"
@@ -11,4 +9,14 @@ class User(Base):
     email = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
     firebase_id = Column(String, unique=True, nullable=False)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    created_at = Column(String, default="CURRENT_TIMESTAMP")
+
+class UISettings(Base):
+    __tablename__ = "ui_settings"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(String, nullable=False)
+    font_size = Column(String, default="16px")
+    button_height = Column(String, default="40px")
+    icon_size = Column(String, default="24px")
+    created_at = Column(TIMESTAMP, default=func.now())

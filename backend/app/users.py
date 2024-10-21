@@ -4,14 +4,9 @@ from sqlalchemy.orm import Session
 from app.dependencies import get_db  # Ajusta según tu estructura de directorios
 from passlib.context import CryptContext
 from app.models import User
-import firebase_admin
-from firebase_admin import auth, credentials
+from firebase_admin import auth
 
 router = APIRouter()
-
-# Asegúrate de inicializar Firebase solo una vez en tu aplicación
-cred = credentials.Certificate("app/firebase-key.json")
-firebase_admin.initialize_app(cred)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
