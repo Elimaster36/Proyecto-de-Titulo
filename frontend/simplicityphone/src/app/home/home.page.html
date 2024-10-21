@@ -8,38 +8,30 @@
     <ion-row>
       <!-- Botón 1: Emergencia -->
       <ion-col>
-        <ion-button
-          expand="block"
-          shape="round"
-          color="warning"
-          class="menu-btn"
+        <app-emergency-button
+          service="ambulancia"
+          ionIcon="medkit-outline"
+          customColor="#ffff00"
         >
-          <ion-icon name="medkit-outline"></ion-icon>
-        </ion-button>
+        </app-emergency-button>
       </ion-col>
 
       <!-- Botón 2: Bomberos -->
       <ion-col>
-        <ion-button
-          expand="block"
-          shape="round"
-          color="danger"
-          class="menu-btn"
-        >
-          <ion-img src="/assets/icon/bombero.png"></ion-img>
-        </ion-button>
+        <app-emergency-button
+          service="bomberos"
+          icon="/assets/icon/bombero.png"
+          buttonColor="danger"
+        ></app-emergency-button>
       </ion-col>
 
       <!-- Botón 3: Policía -->
       <ion-col>
-        <ion-button
-          expand="block"
-          shape="round"
-          style="--background: #2a5828"
-          class="menu-btn"
-        >
-          <ion-img src="/assets/icon/policia.png"></ion-img>
-        </ion-button>
+        <app-emergency-button
+          service="carabineros"
+          icon="/assets/icon/policia.png"
+          customColor="#6b8e23"
+        ></app-emergency-button>
       </ion-col>
     </ion-row>
 
@@ -58,14 +50,7 @@
 
       <!-- Botón 5: Teléfono -->
       <ion-col>
-        <ion-button
-          expand="block"
-          shape="round"
-          color="success"
-          class="menu-btn"
-        >
-          <ion-icon name="call-outline"></ion-icon>
-        </ion-button>
+        <app-call-button></app-call-button>
       </ion-col>
 
       <!-- Botón 6: Noticia -->
