@@ -51,15 +51,21 @@ const routes: Routes = [
       import('./configuration/pages/tutorials/tutorials.module').then(
         (m) => m.TutorialsPageModule
       ),
-  },  {
+  },
+  {
     path: 'aplications',
-    loadChildren: () => import('./configuration/pages/aplications/aplications.module').then( m => m.AplicationsPageModule)
+    loadChildren: () =>
+      import('./configuration/pages/aplications/aplications.module').then(
+        (m) => m.AplicationsPageModule
+      ),
   },
   {
     path: 'size-configuration',
-    loadChildren: () => import('./configuration/pages/size-configuration/size-configuration.module').then( m => m.SizeConfigurationPageModule)
+    loadChildren: () =>
+      import(
+        './configuration/pages/size-configuration/size-configuration.module'
+      ).then((m) => m.SizeConfigurationPageModule),
   },
-
 ];
 
 @NgModule({
