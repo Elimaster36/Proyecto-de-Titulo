@@ -1,20 +1,108 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+<ion-content class="menu-content">
+  <div class="clock-container">
+    <h1 class="time">{{currentTime}}</h1>
+    <p class="date">{{currentDate}}</p>
   </div>
+
+  <ion-grid>
+    <ion-row>
+      <!-- Botón 1: Emergencia -->
+      <ion-col>
+        <app-emergency-button
+          service="ambulancia"
+          ionIcon="medkit-outline"
+          customColor="#ffff00"
+        >
+        </app-emergency-button>
+      </ion-col>
+
+      <!-- Botón 2: Bomberos -->
+      <ion-col>
+        <app-emergency-button
+          service="bomberos"
+          icon="/assets/icon/bombero.png"
+          buttonColor="danger"
+        ></app-emergency-button>
+      </ion-col>
+
+      <!-- Botón 3: Policía -->
+      <ion-col>
+        <app-emergency-button
+          service="carabineros"
+          icon="/assets/icon/policia.png"
+          customColor="#6b8e23"
+        ></app-emergency-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <!-- Botón 4: Agenda -->
+      <ion-col>
+        <ion-button
+          expand="block"
+          shape="round"
+          style="--background: #e228d9"
+          class="menu-btn"
+        >
+          <ion-icon name="calendar-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+
+      <!-- Botón 5: Teléfono -->
+      <ion-col>
+        <app-call-button></app-call-button>
+      </ion-col>
+
+      <!-- Botón 6: Noticia -->
+      <ion-col>
+        <ion-button
+          expand="block"
+          shape="round"
+          color="primary"
+          class="menu-btn"
+        >
+          <ion-icon name="newspaper-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <!-- Botón 7: Compartir Ubicación -->
+      <ion-col>
+        <ion-button
+          expand="block"
+          shape="round"
+          style="--background: #fc8600"
+          class="menu-btn"
+        >
+          <ion-icon name="location-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+
+      <!-- Botón 8: Quien Soy -->
+      <ion-col>
+        <ion-button
+          expand="block"
+          shape="round"
+          style="--background: #9307d4"
+          class="menu-btn"
+        >
+          <ion-icon name="person-circle-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+
+      <!-- Botón 9: Configuración -->
+      <ion-col>
+        <ion-button
+          expand="block"
+          shape="round"
+          color="medium"
+          class="menu-btn"
+          routerLink="/configuration-settings"
+        >
+          <ion-icon name="settings-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

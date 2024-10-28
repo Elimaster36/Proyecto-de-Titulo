@@ -1,0 +1,15 @@
+<ion-button
+  [ngStyle]="{ '--background': customColor }"
+  expand="block"
+  shape="round"
+  [color]="buttonColor"
+  class="menu-btn"
+  (click)="callEmergencyService()"
+>
+  <ng-container *ngIf="icon; else ionicIcon">
+    <ion-img [src]="icon"></ion-img>
+  </ng-container>
+  <ng-template #ionicIcon>
+    <ion-icon [name]="ionIcon"></ion-icon>
+  </ng-template>
+</ion-button>
