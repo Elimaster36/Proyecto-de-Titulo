@@ -2,12 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { initializeApp } from 'firebase/app';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { environment } from 'src/environments/environment';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 const API_URL = 'http://127.0.0.1:8000/api/v1';
 
@@ -17,7 +14,7 @@ const API_URL = 'http://127.0.0.1:8000/api/v1';
 export class AuthService {
   private auth = getAuth(initializeApp(environment.firebaseConfig));
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private afAuth: AngularFireAuth) {}
 
   async registerUser(
     name: string,
@@ -46,16 +43,12 @@ export class AuthService {
 
   async loginUser(email: string, password: string): Promise<any> {
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        this.auth,
+      const user = await this.afAuth.signInWithEmailAndPassword(
         email,
         password
       );
-      const idToken = await userCredential.user?.getIdToken();
-      return firstValueFrom(
-        this.http.post(`${API_URL}/login`, { email, password, idToken })
-      );
-    } catch (error) {
+      return user;
+    } catch (error: any) {
       throw error;
     }
   }

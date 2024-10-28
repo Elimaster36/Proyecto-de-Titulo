@@ -64,7 +64,7 @@ export class RegisterPage implements OnInit {
       this.router.navigate(['/login']);
     } catch (error: any) {
       // Maneja errores específicos del registro
-      if (error.error && error.error.detail === 'Email already registered') {
+      if (error.code === 'auth/email-already-in-use') {
         this.showAlert(
           'Correo Duplicado',
           'El correo ingresado ya está registrado, por favor ingrese un correo nuevo.'

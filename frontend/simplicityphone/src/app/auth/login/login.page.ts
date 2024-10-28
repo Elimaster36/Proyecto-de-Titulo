@@ -33,16 +33,25 @@ export class LoginPage implements OnInit {
 
   async onLogin() {
     if (this.loginForm.invalid) {
-      // Si los campos están vacíos, mostrar la alerta correspondiente
-      if (!this.loginForm.value.email || !this.loginForm.value.password) {
+      if (this.loginForm.controls['email'].errors) {
         await this.presentAlert(
-          'Campos vacios',
+          'Correo inválido',
+          'Por favor, ingresa un correo válido'
+        );
+      } else if (this.loginForm.controls['password'].errors) {
+        await this.presentAlert(
+          'Contraseña inválida',
+          'La contraseña debe tener al menos 8 caracteres'
+        );
+      } else {
+        await this.presentAlert(
+          'Campos vacíos',
           'Por favor, ingresa todos los campos'
         );
       }
-      return; // Detener la ejecución si los campos están vacíos
+      return;
     }
-    // Solo continúa si todos los campos son válidos
+
     try {
       const result = await this.authService.loginUser(
         this.loginForm.value.email,
@@ -51,25 +60,19 @@ export class LoginPage implements OnInit {
       console.log('Inicio de sesión exitoso', result);
       this.router.navigate(['/home']);
     } catch (error: any) {
-      if (error.error && error.error.detail === 'Invalid email or password') {
-        this.presentAlert(
-          'Credenciales Incorrectas',
-          'Por favor, ingrese credenciales correctas'
-        );
-      } else if (
-        error.error &&
-        error.error.detail === 'Authorization header missing'
-      ) {
-        this.presentAlert(
-          'Correo invalido',
-          'Por favor, ingrese un correo valido'
+      if (error.code === 'auth/invalid-credential') {
+        await this.presentAlert(
+          'Credenciales incorrectas',
+          'Por favor, ingresa credenciales correctas'
         );
       } else {
-        this.presentAlert('Error', 'Ocurrió un error inesperado');
+        await this.presentAlert(
+          'Ocurrio un error',
+          'Ocurrio un error inesperado'
+        );
       }
     }
   }
-
   async presentAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header: header,
