@@ -1,3 +1,4 @@
+'''
 from fastapi import FastAPI, Depends, HTTPException, Request
 from pydantic import BaseModel
 import firebase_admin
@@ -95,3 +96,4 @@ def update_preferences(user_id: str, pref: PreferenceUpdate, token: dict = Depen
     db.commit()
     print("Preferences updated successfully")
     return {"message": "Preferences updated"}
+'''

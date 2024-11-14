@@ -33,7 +33,15 @@ export class LoginPage implements OnInit {
 
   async onLogin() {
     if (this.loginForm.invalid) {
-      if (this.loginForm.controls['email'].errors) {
+      if (
+        this.loginForm.value.email === '' &&
+        this.loginForm.value.password === ''
+      ) {
+        await this.presentAlert(
+          'Campos vacíos',
+          'Por favor, ingresa todos los campos'
+        );
+      } else if (this.loginForm.controls['email'].errors) {
         await this.presentAlert(
           'Correo inválido',
           'Por favor, ingresa un correo válido'
@@ -42,11 +50,6 @@ export class LoginPage implements OnInit {
         await this.presentAlert(
           'Contraseña inválida',
           'La contraseña debe tener al menos 8 caracteres'
-        );
-      } else {
-        await this.presentAlert(
-          'Campos vacíos',
-          'Por favor, ingresa todos los campos'
         );
       }
       return;
