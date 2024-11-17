@@ -52,20 +52,6 @@ const routes: Routes = [
         (m) => m.TutorialsPageModule
       ),
   },
-  {
-    path: 'aplications',
-    loadChildren: () =>
-      import('./configuration/pages/aplications/aplications.module').then(
-        (m) => m.AplicationsPageModule
-      ),
-  },
-  {
-    path: 'size-configuration',
-    loadChildren: () =>
-      import(
-        './configuration/pages/size-configuration/size-configuration.module'
-      ).then((m) => m.SizeConfigurationPageModule),
-  },
 ];
 
 @NgModule({
