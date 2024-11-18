@@ -13,13 +13,18 @@ class User(Base):
     firebase_id = Column(String, unique=True, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     # Agrega la relación con 'user_info'
-    user_info = relationship('UserInfo', back_populates='user', uselist=False)
+    user_info = relationship('quien_soy', back_populates='users', uselist=False)
 
-class Quien_Soy(Base):
-    __tablename__ = 'user_info'
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey('users.id'))  # Relaciona con la tabla de usuarios
-    age = Column(Integer)
-    address = Column(String)
-    # Relación con el modelo 'User' si ya lo tienes, ajusta el nombre de la tabla si es necesario
-    user = relationship('User', back_populates='user_info')
+class QuienSoy(Base):
+    __tablename__ = 'quien_soy'
+    
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    userd_id = Column(Integer, ForeignKey('users.id'), nullable=False)  # Relación con el ID de Firebase
+    full_name = Column(String, nullable=False)
+    photo_url = Column(String, nullable=True)  # URL a la foto almacenada en Firebase Cloud Storage
+    age = Column(Integer, nullable=False)
+    address = Column(String, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    # Relación opcional para acceder al usuario si es necesario
+    user = relationship('users', back_populates='quien_soy')

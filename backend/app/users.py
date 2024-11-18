@@ -71,3 +71,5 @@ async def login_user(user: UserLogin, db: Session = Depends(get_db)):
 
     return {"message": "User logged in", "user_id": db_user.id, "email": db_user.email}
 
+
+

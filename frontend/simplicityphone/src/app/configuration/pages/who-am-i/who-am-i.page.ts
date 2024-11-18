@@ -1,64 +1,44 @@
-import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { Component } from '@angular/core';
 import { UserInfoService } from '../../services/user-info.service';
-import { firstValueFrom } from 'rxjs';
-import { AuthService } from 'src/app/core/services/auth.service';
-
 @Component({
   selector: 'app-who-am-i',
   templateUrl: './who-am-i.page.html',
   styleUrls: ['./who-am-i.page.scss'],
 })
-export class WhoAmIPage implements OnInit {
-  name: string = ''; // Para mostrar el nombre del usuario
-  age: number = 0;
-  address: string = '';
+export class WhoAmIPage {
+  age!: number;
+  address!: string;
+  file!: File;
+  photoUrl!: string;
 
-  constructor(
-    private userInfoService: UserInfoService,
-    private alertController: AlertController,
-    private authService: AuthService
-  ) {}
+  constructor(private userInfoService: UserInfoService) {}
 
-  ngOnInit() {
-    this.loadUserInfo();
-  }
+  // Función para manejar el archivo subido por el usuario
+  onFileChange(event: Event) {
+    // Especificar el tipo correcto para el 'target' del evento
+    const input = event.target as HTMLInputElement;
 
-  loadUserInfo() {
-    const userId = this.authService.getUserId();
-    this.userInfoService.getUserInfo(userId).subscribe({
-      next: (response) => {
-        this.name = response.name; // Aquí cargamos el nombre del usuario
-        this.age = response.age || 0; // Si no hay edad, la dejamos en 0
-        this.address = response.address || ''; // Si no hay dirección, la dejamos vacía
-      },
-      error: (error) => {
-        console.error('Error al cargar la información del usuario:', error);
-      },
-    });
-  }
-
-  async onSubmit() {
-    const userId = 1; // Aquí deberías obtener el ID del usuario autenticado
-    try {
-      // Usamos firstValueFrom en lugar de .toPromise()
-      await firstValueFrom(
-        this.userInfoService.saveUserInfo(userId, this.age, this.address)
-      );
-      this.showAlert('Éxito', 'La información se guardó correctamente');
-    } catch (error) {
-      this.showAlert('Error', 'No se pudo guardar la información');
-      console.error(error);
+    if (input?.files?.[0]) {
+      this.file = input.files[0]; // Asignar el archivo
     }
   }
 
-  async showAlert(header: string, message: string) {
-    const alert = await this.alertController.create({
-      header: header,
-      message: message,
-      buttons: ['OK'],
-    });
+  // Función para enviar la información del usuario
+  async onSubmit() {
+    try {
+      // Subir la foto a Supabase y obtener la URL pública
+      const photoUrl = await this.userInfoService.uploadFile(this.file);
 
-    await alert.present();
+      // Enviar los datos al backend, incluyendo la URL de la foto
+      this.userInfoService.saveUserInfo({
+        age: this.age,
+        address: this.address,
+        photoUrl: photoUrl,
+      });
+
+      console.log('Datos guardados correctamente');
+    } catch (error) {
+      console.error('Error al guardar la información:', error);
+    }
   }
 }

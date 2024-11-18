@@ -52,4 +52,15 @@ export class AuthService {
       throw error;
     }
   }
+
+  async getIdToken(): Promise<string | null> {
+    const auth = getAuth(); // Usar getAuth() para inicializar la autenticación
+    const user = auth.currentUser;
+    if (user) {
+      const token = await user.getIdToken();
+      return token; // Devuelve el token JWT
+    } else {
+      return null; // El usuario no está autenticado
+    }
+  }
 }
