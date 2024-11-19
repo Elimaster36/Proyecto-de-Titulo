@@ -1,30 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Quien Soy</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
-  <!-- Botón de retroceso y título -->
-  <div class="custom-header">
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button>
-    </ion-buttons>
-    <h1>Quien Soy</h1>
+  <div class="form-container">
+    <form [formGroup]="registerForm" (ngSubmit)="submit()">
+      <ion-item>
+        <ion-label position="floating">Ingrese su Nombre</ion-label>
+        <ion-input formControlName="full_name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Ingrese su Edad</ion-label>
+        <ion-input type="number" formControlName="age"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Ingrese su Ubicación</ion-label>
+        <ion-input formControlName="address"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Foto</ion-label>
+        <input type="file" (change)="onFileChange($event)" />
+      </ion-item>
+      <ion-button expand="full" type="submit" [disabled]="!registerForm.valid"
+        >Guardar Cambios</ion-button
+      >
+    </form>
   </div>
-</ion-content>
-
-<ion-content>
-  <form (ngSubmit)="onSubmit()">
-    <ion-item>
-      <ion-label position="floating">Edad</ion-label>
-      <ion-input type="number" [(ngModel)]="age" name="age"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Dirección</ion-label>
-      <ion-input type="text" [(ngModel)]="address" name="address"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="floating">Foto</ion-label>
-      <input type="file" (change)="onFileChange($event)" />
-    </ion-item>
-
-    <ion-button expand="full" type="submit">Guardar</ion-button>
-  </form>
 </ion-content>

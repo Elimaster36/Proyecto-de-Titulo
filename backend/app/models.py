@@ -12,19 +12,18 @@ class User(Base):
     password = Column(String, nullable=False)
     firebase_id = Column(String, unique=True, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-    # Agrega la relación con 'user_info'
-    user_info = relationship('quien_soy', back_populates='users', uselist=False)
+    quien_soy = relationship('QuienSoy', back_populates='user')
 
 class QuienSoy(Base):
     __tablename__ = 'quien_soy'
-    
     id = Column(Integer, primary_key=True, autoincrement=True)
-    userd_id = Column(Integer, ForeignKey('users.id'), nullable=False)  # Relación con el ID de Firebase
+    user_firebase_id = Column(String, ForeignKey('users.firebase_id'), nullable=False)
     full_name = Column(String, nullable=False)
-    photo_url = Column(String, nullable=True)  # URL a la foto almacenada en Firebase Cloud Storage
+    photo = Column(String, nullable=True)  # Cambiado a String para almacenar la cadena base64
     age = Column(Integer, nullable=False)
     address = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    # Relación opcional para acceder al usuario si es necesario
-    user = relationship('users', back_populates='quien_soy')
+    user = relationship('User', back_populates='quien_soy')
+
+

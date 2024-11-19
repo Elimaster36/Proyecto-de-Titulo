@@ -52,6 +52,11 @@ const routes: Routes = [
         (m) => m.TutorialsPageModule
       ),
   },
+  {
+    path: 'quien-soy',
+    loadChildren: () =>
+      import('./user/pages/user.module').then((m) => m.UserModule),
+  },
 ];
 
 @NgModule({

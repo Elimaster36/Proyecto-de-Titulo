@@ -17,7 +17,6 @@ def get_db():
     finally:
         db.close()
 
-
 def get_current_user(request: Request, db: Session = Depends(get_db)):
     # Obtener el token de Firebase del encabezado Authorization
     auth_header = request.headers.get("Authorization")
@@ -38,6 +37,6 @@ def get_current_user(request: Request, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     
     return user
-# Aquí agregas tus rutas
+
 
 

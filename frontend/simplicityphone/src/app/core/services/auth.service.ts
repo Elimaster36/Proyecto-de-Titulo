@@ -5,6 +5,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { environment } from 'src/environments/environment';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { Router } from '@angular/router';
 
 const API_URL = 'http://127.0.0.1:8000/api/v1';
 
@@ -14,7 +15,11 @@ const API_URL = 'http://127.0.0.1:8000/api/v1';
 export class AuthService {
   private auth = getAuth(initializeApp(environment.firebaseConfig));
 
-  constructor(private http: HttpClient, private afAuth: AngularFireAuth) {}
+  constructor(
+    private http: HttpClient,
+    private afAuth: AngularFireAuth,
+    private router: Router
+  ) {}
 
   async registerUser(
     name: string,
@@ -53,14 +58,16 @@ export class AuthService {
     }
   }
 
-  async getIdToken(): Promise<string | null> {
-    const auth = getAuth(); // Usar getAuth() para inicializar la autenticación
-    const user = auth.currentUser;
-    if (user) {
-      const token = await user.getIdToken();
-      return token; // Devuelve el token JWT
-    } else {
-      return null; // El usuario no está autenticado
+  async logout() {
+    try {
+      await this.afAuth.signOut();
+      this.router.navigate(['/login']); // Redirigir a la página de inicio de sesión
+      console.log('Logged out successfully');
+    } catch (error) {
+      console.error('Logout error', error);
     }
+  }
+  async getUser() {
+    return this.afAuth.currentUser;
   }
 }

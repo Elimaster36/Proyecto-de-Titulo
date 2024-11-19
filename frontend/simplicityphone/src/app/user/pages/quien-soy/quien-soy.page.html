@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Información del Usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="userInfo">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ userInfo.full_name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Edad:</strong> {{ userInfo.age }}</p>
+        <p><strong>Dirección:</strong> {{ userInfo.address }}</p>
+        <div *ngIf="userInfo.photo">
+          <img [src]="userInfo.photo" alt="User Photo" />
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
