@@ -19,7 +19,7 @@ class QuienSoy(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_firebase_id = Column(String, ForeignKey('users.firebase_id'), nullable=False)
     full_name = Column(String, nullable=False)
-    photo = Column(String, nullable=True)  # Cambiado a String para almacenar la cadena base64
+    photo = Column(String, nullable=True)
     age = Column(Integer, nullable=False)
     address = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())

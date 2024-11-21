@@ -3,23 +3,53 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Información del Usuario</ion-title>
+    <ion-title>Quien Soy</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div *ngIf="userInfo">
+  <div *ngIf="!isEditing">
     <ion-card>
       <ion-card-header>
-        <ion-card-title>{{ userInfo.full_name }}</ion-card-title>
+        <ion-card-title>{{ userInfo?.full_name }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <p><strong>Edad:</strong> {{ userInfo.age }}</p>
-        <p><strong>Dirección:</strong> {{ userInfo.address }}</p>
-        <div *ngIf="userInfo.photo">
-          <img [src]="userInfo.photo" alt="User Photo" />
+        <p><strong>Edad:</strong> {{ userInfo?.age }}</p>
+        <p><strong>Dirección:</strong> {{ userInfo?.address }}</p>
+        <div *ngIf="userInfo?.photo">
+          <img [src]="userInfo?.photo || ''" alt="Foto del Usuario" />
         </div>
       </ion-card-content>
     </ion-card>
+    <ion-button expand="full" (click)="editUserInfo()"
+      >Editar Información</ion-button
+    >
   </div>
+
+  <form
+    *ngIf="isEditing"
+    [formGroup]="userInfoForm"
+    (ngSubmit)="updateUserInfo()"
+  >
+    <ion-item>
+      <ion-label position="stacked">Nombre Completo</ion-label>
+      <ion-input formControlName="full_name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Edad</ion-label>
+      <ion-input formControlName="age" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Dirección</ion-label>
+      <ion-input formControlName="address"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Foto</ion-label>
+      <input type="file" (change)="onFileChange($event)" />
+    </ion-item>
+    <ion-button expand="full" type="submit">Guardar</ion-button>
+    <ion-button expand="full" color="danger" (click)="cancelEdit()"
+      >Cancelar</ion-button
+    >
+  </form>
 </ion-content>

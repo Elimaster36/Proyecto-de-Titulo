@@ -35,21 +35,24 @@ export class WhoAmIPage {
     if (currentUser) {
       const userInfo = new FormData();
       userInfo.append('user_firebase_id', currentUser.uid);
-      userInfo.append('full_name', this.registerForm.value.full_name);
-      userInfo.append('age', this.registerForm.value.age.toString());
-      userInfo.append('address', this.registerForm.value.address);
+      userInfo.append('full_name', this.registerForm.get('full_name')!.value);
+      userInfo.append('age', this.registerForm.get('age')!.value.toString());
+      userInfo.append('address', this.registerForm.get('address')!.value);
       if (this.photo) {
         userInfo.append('file', this.photo, this.photo.name);
       }
-      this.userInfoService.createUserInfo(userInfo).subscribe(
-        (response) => {
+
+      this.userInfoService.createUserInfo(userInfo).subscribe({
+        next: (response) => {
           console.log('User info saved successfully', response);
         },
-        (error) => {
+        error: (error) => {
           console.error('Error saving user info', error);
-          console.error(error.error); // Añadir más detalles del error
-        }
-      );
+        },
+        complete: () => {
+          console.log('Request completed');
+        },
+      });
     }
   }
 }
