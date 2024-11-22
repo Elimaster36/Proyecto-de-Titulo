@@ -2,7 +2,7 @@ import logging
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
-from app.dependencies import get_db  # Ajusta según tu estructura de directorios
+from app.dependencies import get_db
 from passlib.context import CryptContext
 from app.models import User
 import firebase_admin
@@ -70,4 +70,6 @@ async def login_user(user: UserLogin, db: Session = Depends(get_db)):
     db.commit()
 
     return {"message": "User logged in", "user_id": db_user.id, "email": db_user.email}
+
+
 
