@@ -1,0 +1,38 @@
+ion-grid {
+  ion-col {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .current-day {
+    background-color: #add8e6;
+    color: #ffffff;
+  }
+
+  .past-day {
+    background-color: #d3d3d3;
+    color: #a9a9a9;
+  }
+
+  .future-day {
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  ion-textarea {
+    width: 100%;
+    margin-top: 8px;
+  }
+}
+
+ion-header ion-toolbar {
+  ion-title {
+    text-align: center;
+  }
+}
+
+h2 {
+  margin: 0;
+  font-size: 1.2em;
+}
