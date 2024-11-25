@@ -1,4 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../core/services/auth.service';
+import { Agenda } from '../models/agenda';
+import { AgendaService } from './services/agenda.service';
 
 @Component({
   selector: 'app-agenda',
@@ -6,47 +9,63 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
   styleUrls: ['./agenda.page.scss'],
 })
 export class AgendaPage implements OnInit {
-  currentMonth: Date = new Date();
-  daysInMonth: Array<{ date: Date; notes: string }> = [];
+  isModalOpen = false;
+  notes: Agenda[] = [];
+  newNote: Agenda = {
+    title: '',
+    content: '',
+    datetime: '',
+  };
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private agendaService: AgendaService,
+    private authService: AuthService // Inyecta tu AuthService
+  ) {}
 
   ngOnInit() {
-    this.updateDaysInMonth();
+    this.loadNotes();
   }
 
-  updateDaysInMonth() {
-    this.daysInMonth = [];
-    const year = this.currentMonth.getFullYear();
-    const month = this.currentMonth.getMonth();
-    const lastDayOfMonth = new Date(year, month + 1, 0);
-    for (let day = 1; day <= lastDayOfMonth.getDate(); day++) {
-      const date = new Date(year, month, day);
-      this.daysInMonth.push({ date: date, notes: '' });
+  async loadNotes() {
+    try {
+      const user = await this.authService.getUser();
+      if (user) {
+        const idToken = await user.getIdToken();
+        this.agendaService.getNotes(idToken).subscribe((notes: Agenda[]) => {
+          this.notes = notes;
+        });
+      }
+    } catch (error) {
+      console.error('Error al cargar notas:', error);
     }
-    this.cdr.detectChanges(); // Asegurar que se detecten los cambios
   }
-  prevMonth() {
-    this.currentMonth = new Date(
-      this.currentMonth.setMonth(this.currentMonth.getMonth() - 1)
-    );
-    this.updateDaysInMonth();
+
+  openAddNoteModal() {
+    this.isModalOpen = true;
   }
-  nextMonth() {
-    this.currentMonth = new Date(
-      this.currentMonth.setMonth(this.currentMonth.getMonth() + 1)
-    );
-    this.updateDaysInMonth();
+
+  closeAddNoteModal() {
+    this.isModalOpen = false;
+    this.newNote = {
+      title: '',
+      content: '',
+      datetime: '',
+    };
   }
-  getDayClass(day: { date: Date; notes: string }) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    if (day.date.toDateString() === today.toDateString()) {
-      return 'current-day';
-    } else if (day.date < today) {
-      return 'past-day';
-    } else {
-      return 'future-day';
+
+  async saveNote() {
+    try {
+      const user = await this.authService.getUser();
+      if (user) {
+        const idToken = await user.getIdToken();
+        const noteToSend = { ...this.newNote, idToken }; // Añadir idToken al objeto
+        this.agendaService.saveNote(noteToSend).subscribe((note) => {
+          this.notes.push(note);
+          this.closeAddNoteModal();
+        });
+      }
+    } catch (error) {
+      console.error('Error al guardar nota:', error);
     }
   }
 }
