@@ -3,4 +3,5 @@ export interface Agenda {
   title: string;
   content: string;
   datetime: string;
+  idToken?: string;
 }
