@@ -1,65 +1,69 @@
+from fastapi import HTTPException
+from grpc import Status
 from sqlalchemy.orm import Session
-from . import models
-from pydantic import BaseModel
-from datetime import date
-from pydantic import BaseModel
-from datetime import date
+from .models import Agenda
+from .schemas import AgendaCreate, AgendaUpdate
 
-class AgendaBase(BaseModel):
-    date: date
-    notes: str
 
-class AgendaCreate(AgendaBase):
-    user_firebase_id: str
+def get_agendas(db: Session):
+    agendas = db.query(Agenda).all()
+    return agendas
 
-class AgendaUpdate(AgendaBase):
-    pass
-
-class Agenda(AgendaBase):
-    id: int
-    user_firebase_id: str
-
-    class Config:
-        from_attributes = True
-
-def get_agenda_by_date_and_user(db: Session, date: str, user_firebase_id: str):
-    return db.query(models.Agenda).filter(
-        models.Agenda.date == date,
-        models.Agenda.user_firebase_id == user_firebase_id
-    ).first()
-
-def create_or_update_agenda(db: Session, agenda_data: AgendaCreate):
-    existing_agenda = get_agenda_by_date_and_user(db, agenda_data.date, agenda_data.user_firebase_id)
-    if existing_agenda:
-        existing_agenda.notes = agenda_data.notes
-        db.commit()
-        db.refresh(existing_agenda)
-        return existing_agenda
-    else:
-        new_agenda = models.Agenda(**agenda_data.model_dump())
-        db.add(new_agenda)
-        db.commit()
-        db.refresh(new_agenda)
-        return new_agenda
-
-def get_agenda_by_user(db: Session, user_firebase_id: str):
-    return db.query(models.Agenda).filter(models.Agenda.user_firebase_id == user_firebase_id).all()
-
-def update_agenda(db: Session, agenda_id: int, agenda_data: AgendaUpdate):
-    db_agenda = db.query(models.Agenda).filter(models.Agenda.id == agenda_id).first()
-    if db_agenda:
-        db_agenda.notes = agenda_data.notes
-        db.commit()
-        db.refresh(db_agenda)
-        return db_agenda
-    return None
-
-def delete_agenda(db: Session, agenda_id: int):
-    db_agenda = db.query(models.Agenda).filter(models.Agenda.id == agenda_id).first()
-    if db_agenda:
-        db.delete(db_agenda)
-        db.commit()
+def create_agenda(db: Session, agenda: AgendaCreate):
+    # Crear una nueva agenda asociada al usuario mediante firebase_id
+    db_agenda = Agenda(
+        title=agenda.title,
+        content=agenda.content,
+        datetime=agenda.datetime,
+        notification=agenda.notification,
+        firebase_id=agenda.firebase_id  # Aquí usamos firebase_id que viene del esquema AgendaCreate
+    )
+    db.add(db_agenda)
+    db.commit()
+    db.refresh(db_agenda)
     return db_agenda
+
+
+def update_agenda(db: Session, agenda_id: int, firebase_id: str, agenda: AgendaUpdate):
+    # Consultar la agenda a actualizar, asegurándose de que pertenece al usuario
+    db_agenda = db.query(Agenda).filter(Agenda.id == agenda_id, Agenda.firebase_id == firebase_id).first()
+    
+    # Si no se encuentra la agenda, lanzar una excepción
+    if not db_agenda:
+        raise HTTPException(
+            status_code=Status.HTTP_404_NOT_FOUND,
+            detail="Agenda not found or unauthorized"
+        )
+    
+    # Actualizar los campos de la agenda con los datos proporcionados
+    for key, value in agenda.model_dump(exclude_unset=True).items():
+        setattr(db_agenda, key, value)
+    
+    # Confirmar los cambios y refrescar la instancia de la agenda
+    db.commit()
+    db.refresh(db_agenda)
+    
+    return db_agenda
+
+def delete_agenda(db: Session, agenda_id: int, firebase_id: str):
+    # Consultar la agenda a eliminar, asegurándose de que pertenece al usuario
+    db_agenda = db.query(Agenda).filter(Agenda.id == agenda_id, Agenda.firebase_id == firebase_id).first()
+    
+    # Si no se encuentra la agenda o no pertenece al usuario, lanzar una excepción
+    if not db_agenda:
+        raise HTTPException(
+            status_code=Status.HTTP_404_NOT_FOUND,
+            detail="Agenda not found or unauthorized"
+        )
+    
+    # Eliminar la agenda
+    db.delete(db_agenda)
+    db.commit()
+    
+    return db_agenda
+
+
+
 
 
 

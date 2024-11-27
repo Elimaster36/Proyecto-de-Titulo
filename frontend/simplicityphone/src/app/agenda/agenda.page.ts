@@ -2,7 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../core/services/auth.service';
 import { Agenda } from '../models/agenda';
 import { AgendaService } from './services/agenda.service';
-import { AlertController } from '@ionic/angular';
+import {
+  AlertController,
+  ToastController,
+  LoadingController,
+} from '@ionic/angular';
+import { NotificationsService } from './services/notifications.service';
+import { firstValueFrom, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-agenda',
@@ -17,21 +23,25 @@ export class AgendaPage implements OnInit {
     title: '',
     content: '',
     datetime: '',
+    notification: false, // Añadimos la propiedad notification
   };
   selectedNote: Agenda = {
-    id: undefined, // Aseguramos que tenga un id
+    id: undefined,
     title: '',
     content: '',
     datetime: '',
+    notification: false, // Añadimos la propiedad notification
   };
-  minDate: string; // Variable para almacenar la fecha mínima
+  minDate: string;
 
   constructor(
     private alertController: AlertController,
     private agendaService: AgendaService,
-    private authService: AuthService // Inyecta tu AuthService
+    private authService: AuthService,
+    private notificationsService: NotificationsService,
+    private toastController: ToastController,
+    private loadingController: LoadingController
   ) {
-    // Establecer la fecha mínima solo con la fecha actual
     const today = new Date();
     this.minDate = new Date(
       today.getFullYear(),
@@ -44,20 +54,34 @@ export class AgendaPage implements OnInit {
 
   ngOnInit() {
     this.loadNotes();
+    this.notificationsService.requestPermissions(); // Solicitar permisos al iniciar
   }
 
-  async loadNotes() {
-    try {
-      const user = await this.authService.getUser();
-      if (user) {
-        const idToken = await user.getIdToken();
-        this.agendaService.getNotes(idToken).subscribe((notes: Agenda[]) => {
-          this.notes = notes;
-        });
-      }
-    } catch (error) {
-      console.error('Error al cargar notas:', error);
-    }
+  loadNotes() {
+    // Suscribirse al observable devuelto por getUser() y usar switchMap para obtener las notas
+    this.authService
+      .getUser()
+      .pipe(
+        switchMap((user) => {
+          if (user) {
+            return this.agendaService.getNotes(); // Devuelve el observable de notas filtradas por firebase_id
+          } else {
+            return []; // Si no hay usuario, retorna un array vacío
+          }
+        })
+      )
+      .subscribe({
+        next: (notes: Agenda[]) => {
+          this.notes = notes; // Establecer las notas para el usuario actual
+        },
+        error: (error) => {
+          console.error('Error al cargar notas:', error);
+        },
+        complete: () => {
+          // Opcional: lógica a ejecutar una vez que la carga de notas termine
+          console.log('Carga de notas completada');
+        },
+      });
   }
 
   openAddNoteModal() {
@@ -70,102 +94,183 @@ export class AgendaPage implements OnInit {
       title: '',
       content: '',
       datetime: '',
+      notification: false,
     };
   }
 
-  async saveNote() {
-    try {
-      const user = await this.authService.getUser();
-      if (user) {
-        const idToken = await user.getIdToken();
-        const noteToSend = { ...this.newNote, idToken }; // Añadir idToken al objeto
-        this.agendaService.saveNote(noteToSend).subscribe((note) => {
-          this.notes.push(note);
-          this.closeAddNoteModal();
-        });
+  saveNote() {
+    this.presentLoading().then(async (loading) => {
+      try {
+        const user = await firstValueFrom(this.authService.getUser());
+        if (user) {
+          const noteToSend = { ...this.newNote, firebase_id: user.uid }; // Añadir firebase_id
+          this.agendaService.createNote(noteToSend).subscribe(async (note) => {
+            this.notes.push(note);
+            this.closeAddNoteModal();
+
+            // Programar notificación si está activada
+            if (note.notification && note.id !== undefined) {
+              await this.notificationsService.scheduleNotification(note);
+            }
+
+            this.presentToast('Nota guardada con éxito.');
+          });
+        }
+      } catch (error) {
+        console.error('Error al guardar nota:', error);
+        this.presentToast('Error al guardar nota.');
+      } finally {
+        loading.dismiss();
       }
-    } catch (error) {
-      console.error('Error al guardar nota:', error);
-    }
+    });
   }
 
   openEditNoteModal(note: Agenda) {
-    this.selectedNote = { ...note }; // Aseguramos que el objeto tenga id
+    this.selectedNote = { ...note };
     this.isEditModalOpen = true;
   }
 
   closeEditNoteModal() {
     this.isEditModalOpen = false;
     this.selectedNote = {
-      id: undefined, // Aseguramos que tenga un id
+      id: undefined,
       title: '',
       content: '',
       datetime: '',
+      notification: false,
     };
   }
 
-  async updateNote() {
-    try {
-      const user = await this.authService.getUser();
-      if (user) {
-        const idToken = await user.getIdToken();
-        const noteToUpdate = { ...this.selectedNote, idToken }; // Añadir idToken al objeto
-        if (noteToUpdate.id !== undefined) {
-          // Verificar que id no sea undefined
-          this.agendaService
-            .updateNote(noteToUpdate, noteToUpdate.id)
-            .subscribe((updatedNote) => {
-              const index = this.notes.findIndex(
-                (n) => n.id === updatedNote.id
+  updateNote() {
+    this.authService
+      .getUser()
+      .pipe(
+        switchMap((user) => {
+          if (user && this.selectedNote.id !== undefined) {
+            const noteToUpdate = {
+              ...this.selectedNote,
+              firebase_id: user.uid, // Añadir firebase_id
+            };
+
+            // Asegurarse de que id es un número antes de llamar a updateNote
+            if (typeof this.selectedNote.id === 'number') {
+              return this.agendaService.updateNote(
+                noteToUpdate,
+                this.selectedNote.id
               );
-              if (index !== -1) {
-                this.notes[index] = updatedNote;
-              }
-              this.closeEditNoteModal();
-            });
-        } else {
-          console.error('Error: noteToUpdate.id es undefined');
-        }
-      }
-    } catch (error) {
-      console.error('Error al actualizar nota:', error);
-    }
+            } else {
+              console.error('ID de la nota no es válido.');
+              return []; // Retorna un array vacío si el ID no es válido
+            }
+          } else {
+            return []; // Si no hay usuario o la nota no tiene ID, retorna un array vacío
+          }
+        })
+      )
+      .subscribe({
+        next: async (updatedNote) => {
+          const index = this.notes.findIndex((n) => n.id === updatedNote.id);
+          if (index !== -1) {
+            this.notes[index] = updatedNote;
+          }
+          this.closeEditNoteModal();
+
+          // Cancelar notificación previa si existe
+          if (updatedNote.id !== undefined) {
+            await this.notificationsService.cancelNotification(updatedNote.id);
+          }
+
+          // Programar nueva notificación si está activada
+          if (updatedNote.notification && updatedNote.id !== undefined) {
+            await this.notificationsService.scheduleNotification(updatedNote);
+          }
+
+          this.presentToast('Nota actualizada con éxito.');
+        },
+        error: (error) => {
+          console.error('Error al actualizar nota:', error);
+          this.presentToast('Error al actualizar nota.');
+        },
+      });
   }
 
-  async confirmDelete() {
-    const alert = await this.alertController.create({
-      header: 'Confirmar Eliminación',
-      message: '¿Estás seguro de que quieres eliminar esta nota?',
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-        },
-        {
-          text: 'Aceptar',
-          handler: () => this.deleteNote(),
-        },
-      ],
-    });
-
-    await alert.present();
+  confirmDelete() {
+    this.alertController
+      .create({
+        header: 'Confirmar Eliminación',
+        message: '¿Estás seguro de que quieres eliminar esta nota?',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+          },
+          {
+            text: 'Aceptar',
+            handler: () => this.deleteNote(),
+          },
+        ],
+      })
+      .then((alert) => alert.present());
   }
 
-  async deleteNote() {
-    try {
-      if (this.selectedNote.id !== undefined) {
-        // Verificar que id no sea undefined
-        this.agendaService.deleteNote(this.selectedNote.id).subscribe(() => {
+  deleteNote() {
+    this.authService
+      .getUser()
+      .pipe(
+        switchMap((user) => {
+          if (this.selectedNote.id !== undefined) {
+            return this.agendaService.deleteNote(this.selectedNote.id);
+          } else {
+            return []; // Si no hay ID de la nota, retorna un array vacío
+          }
+        })
+      )
+      .subscribe({
+        next: () => {
           this.notes = this.notes.filter(
             (note) => note.id !== this.selectedNote.id
           );
           this.closeEditNoteModal();
-        });
-      } else {
-        console.error('Error: selectedNote.id es undefined');
-      }
-    } catch (error) {
-      console.error('Error al eliminar nota:', error);
+
+          // Mostrar mensaje de éxito
+          this.presentToast('Nota eliminada con éxito.');
+        },
+        error: (error) => {
+          console.error('Error al eliminar nota:', error);
+          this.presentToast('Error al eliminar nota.');
+        },
+        complete: () => {
+          // Opcional: Puedes agregar alguna lógica al completar la eliminación si es necesario
+          console.log('Eliminación de nota completada');
+        },
+      });
+  }
+
+  presentToast(message: string) {
+    this.toastController
+      .create({
+        message,
+        duration: 2000,
+        position: 'bottom',
+      })
+      .then((toast) => toast.present());
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Por favor espera...',
+      duration: 2000,
+    });
+    await loading.present();
+    return loading; // Asegúrate de retornar el loading
+  }
+
+  trackById(index: number, note: Agenda): number {
+    if (note.id !== undefined) {
+      return note.id;
+    } else {
+      console.warn(`Nota sin ID detectada en el índice ${index}`);
+      return index;
     }
   }
 }
