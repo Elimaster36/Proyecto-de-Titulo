@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
 import { UserInfoService } from 'src/app/configuration/services/user-info.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UserInfo } from 'src/app/models/user-info';
@@ -33,7 +34,7 @@ export class QuienSoyPage implements OnInit {
   }
 
   async loadUserInfo() {
-    const currentUser = await this.authService.getUser();
+    const currentUser = await firstValueFrom(this.authService.getUser());
     if (currentUser) {
       this.userFirebaseId = currentUser.uid;
       this.userInfoService.getUserInfo(this.userFirebaseId).subscribe({

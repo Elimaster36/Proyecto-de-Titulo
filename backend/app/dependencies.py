@@ -19,26 +19,33 @@ def get_db():
     finally:
         db.close()
 
+from fastapi import HTTPException, Request, Depends
+from sqlalchemy.orm import Session
+from firebase_admin import auth
+
 def get_current_user(request: Request, db: Session = Depends(get_db)):
-    # Obtener el token de Firebase del encabezado Authorization
     auth_header = request.headers.get("Authorization")
     if not auth_header:
         raise HTTPException(status_code=401, detail="Authorization header missing")
-
-    token = auth_header.split(" ")[1]  # "Bearer <token>"
+    
     try:
-        # Verificar el token y obtener el UID del usuario
+        token = auth_header.split(" ")[1]
+    except IndexError:
+        raise HTTPException(status_code=401, detail="Bearer token malformed")
+
+    try:
         decoded_token = auth.verify_id_token(token)
-        uid = decoded_token["uid"]  # Aquí obtienes el UID de Firebase
+        uid = decoded_token["uid"]
     except Exception as e:
         raise HTTPException(status_code=401, detail="Invalid or expired token")
 
-    # Buscar el usuario en la base de datos por su UID
     user = db.query(User).filter(User.firebase_id == uid).first()
     if user is None:
         raise HTTPException(status_code=404, detail="User not found")
     
     return user
+
+
 
 # Configura las credenciales
 os.environ["B2_APPLICATION_KEY_ID"] = "004edf826f9a45b0000000001"

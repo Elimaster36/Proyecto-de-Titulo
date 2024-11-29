@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, from, Observable } from 'rxjs';
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { environment } from 'src/environments/environment';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
+import firebase from 'firebase/compat/app'; // Importar desde compat
+import 'firebase/compat/auth';
 
 const API_URL = 'http://127.0.0.1:8000/api/v1';
 
@@ -67,7 +69,13 @@ export class AuthService {
       console.error('Logout error', error);
     }
   }
-  async getUser() {
-    return this.afAuth.currentUser;
+
+  // Método para obtener el usuario actual
+  getUser(): Observable<firebase.User | null> {
+    return new Observable((observer) => {
+      firebase.auth().onAuthStateChanged((user) => {
+        observer.next(user); // Emitir el usuario actual (o null si no está autenticado)
+      });
+    });
   }
 }

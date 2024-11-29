@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Boolean, Column,Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.sql import func
 
@@ -13,6 +13,7 @@ class User(Base):
     firebase_id = Column(String, unique=True, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     quien_soy = relationship('QuienSoy', back_populates='user')
+    agendas = relationship("Agenda", back_populates="user")
 
 class QuienSoy(Base):
     __tablename__ = 'quien_soy'
@@ -25,5 +26,18 @@ class QuienSoy(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     user = relationship('User', back_populates='quien_soy')
+
+class Agenda(Base):
+    __tablename__ = "agendas"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    title = Column(String, index=True, nullable=True)
+    content = Column(String, nullable=False)
+    datetime = Column(DateTime, nullable=False)  # Esto indica la fecha y hora de la agenda
+    firebase_id = Column(String, ForeignKey('users.firebase_id'), nullable=False)  # Relación con Firebase ID
+    notification = Column(Boolean, default=False)  # Propiedad de notificación
+    user = relationship("User", back_populates="agendas")  # Relación bidireccional con User
+
+
+
 
 

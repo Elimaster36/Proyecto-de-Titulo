@@ -55,7 +55,12 @@ const routes: Routes = [
   {
     path: 'quien-soy',
     loadChildren: () =>
-      import('./user/pages/user.module').then((m) => m.UserModule),
+      import('./quien-soy/quien-soy.module').then((m) => m.QuienSoyPageModule),
+  },
+  {
+    path: 'agenda',
+    loadChildren: () =>
+      import('./agenda/agenda.module').then((m) => m.AgendaPageModule),
   },
 ];
 

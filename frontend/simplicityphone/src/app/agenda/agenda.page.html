@@ -1,0 +1,130 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title> Agenda y Recordatorios </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openAddNoteModal()">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="placeholder" *ngIf="notes.length === 0">
+    <p>Aún no tienes notas</p>
+  </div>
+  <div class="notes" *ngIf="notes.length > 0">
+    <ion-card
+      *ngFor="let note of notes; trackBy: trackById"
+      (click)="openEditNoteModal(note)"
+    >
+      <ion-card-header>
+        <ion-card-title>{{ note.title || 'Sin título' }}</ion-card-title>
+        <ion-card-subtitle
+          >{{ note.datetime | date: 'fullDate' }} {{ note.datetime | date:
+          'shortTime' }}</ion-card-subtitle
+        >
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ note.content }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Modal para añadir una nota -->
+  <ion-modal [isOpen]="isModalOpen" (didDismiss)="closeAddNoteModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Añadir Nota</ion-title>
+          <ion-buttons slot="end">
+            <ion-button class="icon-button" (click)="closeAddNoteModal()">
+              <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <ion-list>
+          <ion-item>
+            <ion-label position="stacked">Título (Opcional)</ion-label>
+            <ion-input [(ngModel)]="newNote.title"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Nota</ion-label>
+            <ion-textarea [(ngModel)]="newNote.content"></ion-textarea>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Fecha y Hora</ion-label>
+            <ion-datetime
+              [(ngModel)]="newNote.datetime"
+              displayFormat="DD MMM YYYY HH:mm"
+              [min]="minDate"
+            ></ion-datetime>
+            <ion-item>
+              <ion-label>Notificación</ion-label>
+              <ion-toggle [(ngModel)]="newNote.notification"></ion-toggle>
+            </ion-item>
+          </ion-item>
+        </ion-list>
+        <ion-button
+          expand="full"
+          (click)="saveNote()"
+          [disabled]="!newNote.title || !newNote.content || !newNote.datetime"
+          >Guardar</ion-button
+        >
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- Modal para editar una nota -->
+  <ion-modal [isOpen]="isEditModalOpen" (didDismiss)="closeEditNoteModal()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Editar Nota</ion-title>
+          <ion-buttons slot="end">
+            <ion-button class="icon-button" (click)="closeEditNoteModal()">
+              <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+            <ion-button class="icon-button" (click)="confirmDelete()">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+            <ion-button class="icon-button" (click)="updateNote()">
+              <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content>
+        <ion-list>
+          <ion-item>
+            <ion-label position="stacked">Título (Opcional)</ion-label>
+            <ion-input [(ngModel)]="selectedNote.title"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Nota</ion-label>
+            <ion-textarea [(ngModel)]="selectedNote.content"></ion-textarea>
+          </ion-item>
+          <ion-item>
+            <ion-label position="stacked">Fecha y Hora</ion-label>
+            <ion-datetime
+              [(ngModel)]="selectedNote.datetime"
+              displayFormat="DD MMM YYYY HH:mm"
+              [min]="minDate"
+            ></ion-datetime>
+            <ion-item>
+              <ion-label>Notificación</ion-label>
+              <ion-toggle [(ngModel)]="selectedNote.notification"></ion-toggle>
+            </ion-item>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>
