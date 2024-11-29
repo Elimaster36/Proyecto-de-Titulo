@@ -32,4 +32,14 @@ class UserBase(BaseModel):
     # Otros atributos que necesites
 
     class Config:
-        from_attributes = True  # Permite trabajar con los modelos de SQLAlchemy
+        from_attributes = True  
+
+class News(BaseModel):
+    title: Optional[str]  # Puede que falten algunos datos, por lo que es mejor usar `Optional`
+    description: Optional[str]
+    link: Optional[str]
+    pubDate: Optional[str]  # Asegúrate de que este formato coincida con la API
+    source_id: Optional[str]
+
+    class Config:
+        from_attributes = True

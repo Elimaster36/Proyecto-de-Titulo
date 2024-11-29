@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request, HTTPException
 from starlette.middleware.cors import CORSMiddleware
 from app.dependencies import get_db
-from app import agenda, users, quien_soy
+from app import agenda, users, quien_soy, news
 import uvicorn
 
 app = FastAPI()
@@ -19,6 +19,7 @@ async def db_session_middleware(request: Request, call_next):
 app.include_router(users.router, prefix="/api/v1")
 app.include_router(quien_soy.router, prefix="/api/v1")
 app.include_router(agenda.router, prefix="/api/v1")
+app.include_router(news.router, prefix= "/api/v1")
 
 
 # Configuración de CORS para permitir las solicitudes desde tu frontend

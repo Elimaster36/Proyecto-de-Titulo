@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Noticias</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner
+    *ngIf="isLoading"
+    color="primary"
+    class="center-spinner"
+  ></ion-spinner>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <ion-list *ngIf="!isLoading && !errorMessage">
+    <ion-item *ngFor="let item of news">
+      <ion-label>
+        <h2>{{ item.title || 'Sin título' }}</h2>
+        <p>{{ item.description || 'Sin descripción' }}</p>
+        <small>{{ item.pubDate }}</small>
+      </ion-label>
+      <ion-button
+        slot="end"
+        color="primary"
+        fill="outline"
+        (click)="openLink(item.link)"
+      >
+        Ver más
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
