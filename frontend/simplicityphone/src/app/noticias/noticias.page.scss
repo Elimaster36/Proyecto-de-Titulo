@@ -1,10 +1,7 @@
-.center-spinner {
-  display: block;
-  margin: 50% auto;
+ion-card {
+  margin: 10px;
 }
 
-.error-message {
-  text-align: center;
-  margin-top: 20px;
-  color: red;
+ion-button {
+  --color: primary;
 }

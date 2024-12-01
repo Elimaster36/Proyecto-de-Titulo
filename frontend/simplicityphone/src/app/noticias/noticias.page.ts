@@ -1,36 +1,51 @@
 import { Component, OnInit } from '@angular/core';
-import { News } from '../models/news';
 import { NewsService } from './services/news.service';
-
 @Component({
   selector: 'app-noticias',
   templateUrl: './noticias.page.html',
   styleUrls: ['./noticias.page.scss'],
 })
 export class NoticiasPage implements OnInit {
-  news: News[] = [];
-  isLoading = true;
-  errorMessage: string | null = null;
+  newsList: any[] = [];
+  isLoading = false;
 
   constructor(private newsService: NewsService) {}
 
   ngOnInit() {
-    this.fetchNews();
+    this.loadNews();
   }
 
-  fetchNews() {
+  loadNews() {
     this.newsService.getNews().subscribe({
-      next: (data) => {
-        this.news = data;
-        this.isLoading = false;
+      next: (news) => {
+        this.newsList = news; // Asignar las noticias al componente
       },
       error: (error) => {
-        this.errorMessage =
-          'Error al cargar las noticias. Intenta de nuevo más tarde.';
-        this.isLoading = false;
+        console.error('Error al cargar noticias:', error);
       },
-      complete: () => {
-        console.log('Noticias cargadas exitosamente');
+    });
+  }
+
+  fetchAndStoreNews() {
+    this.newsService.fetchAndStoreNews().subscribe({
+      next: () => {
+        console.log('Noticias actualizadas correctamente');
+        this.loadNews(); // Recargar noticias después de actualizarlas
+      },
+      error: (error) => {
+        console.error('Error al actualizar noticias:', error);
+      },
+    });
+  }
+
+  markAsRead(feedId: number) {
+    this.newsService.markFeedAsRead(feedId).subscribe({
+      next: () => {
+        console.log(`Feed con ID ${feedId} marcado como leído.`);
+        // Aquí puedes actualizar el estado local si es necesario
+      },
+      error: (err) => {
+        console.error('Error al marcar el feed como leído:', err);
       },
     });
   }

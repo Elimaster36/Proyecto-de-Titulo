@@ -1,7 +1,8 @@
 export interface News {
+  id: number;
   title: string;
-  description: string;
-  link: string;
-  pubDate: string;
-  source_id: string;
+  description?: string;
+  url: string;
+  source_id?: string;
+  pub_date?: Date;
 }

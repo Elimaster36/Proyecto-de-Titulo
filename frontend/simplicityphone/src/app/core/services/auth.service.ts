@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom, from, Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, User } from 'firebase/auth';
 import { environment } from 'src/environments/environment';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
@@ -77,5 +77,9 @@ export class AuthService {
         observer.next(user); // Emitir el usuario actual (o null si no está autenticado)
       });
     });
+  }
+
+  getCurrentUser(): User | null {
+    return this.auth.currentUser; // Devuelve el usuario o null
   }
 }

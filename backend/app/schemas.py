@@ -34,12 +34,42 @@ class UserBase(BaseModel):
     class Config:
         from_attributes = True  
 
-class News(BaseModel):
-    title: Optional[str]  # Puede que falten algunos datos, por lo que es mejor usar `Optional`
+
+from pydantic import BaseModel
+from typing import Optional
+from datetime import datetime
+
+class NewsBase(BaseModel):
+    title: str
     description: Optional[str]
-    link: Optional[str]
-    pubDate: Optional[str]  # Asegúrate de que este formato coincida con la API
+    url: str
     source_id: Optional[str]
+    pub_date: Optional[datetime]
 
     class Config:
         from_attributes = True
+
+class NewsCreate(NewsBase):
+    pass
+
+class News(NewsBase):
+    id: int
+    created_at: datetime
+    updated_at: datetime
+
+class FeedBase(BaseModel):
+    usuario_id: str
+    noticia_id: int
+    fecha_vista: Optional[datetime] = None
+
+    class Config:
+        from_attributes = True
+
+class FeedCreate(FeedBase):
+    pass
+
+class Feed(FeedBase):
+    id: int
+    creado_at: datetime
+    noticia: News  # Relación con el esquema de Noticia
+

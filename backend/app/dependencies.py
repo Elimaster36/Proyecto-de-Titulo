@@ -1,27 +1,24 @@
 from fastapi import Depends, HTTPException, Request
 from firebase_admin import auth
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session, Session
+from sqlalchemy.orm import sessionmaker, Session
 from app.models import Base, User  # Ajusta según tu estructura de directorios
 import os
 from b2sdk.v1 import InMemoryAccountInfo, B2Api
 
 SQLALCHEMY_DATABASE_URL = "postgresql://postgres:Postgre_SQL_2003@localhost/postgres"
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
-SessionLocal = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base.metadata.create_all(bind=engine)
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
+# Dependencia para obtener la sesión de base de datos 
+def get_db(): 
+    db = SessionLocal() 
+    try: 
+        yield db 
+    finally: 
         db.close()
-
-from fastapi import HTTPException, Request, Depends
-from sqlalchemy.orm import Session
-from firebase_admin import auth
 
 def get_current_user(request: Request, db: Session = Depends(get_db)):
     auth_header = request.headers.get("Authorization")
