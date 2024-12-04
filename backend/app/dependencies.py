@@ -42,8 +42,6 @@ def get_current_user(request: Request, db: Session = Depends(get_db)):
     
     return user
 
-
-
 # Configura las credenciales
 os.environ["B2_APPLICATION_KEY_ID"] = "004edf826f9a45b0000000001"
 os.environ["B2_APPLICATION_KEY"] = "K004OdFotsaguPWEhVrRVloATC4he10"

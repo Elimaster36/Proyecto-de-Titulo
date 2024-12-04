@@ -8,7 +8,6 @@ import uvicorn
 
 app = FastAPI()
 
-
 @app.get("/user-id/")
 def get_user_id(firebase_id: str, db: Session = Depends(get_db)):
     """

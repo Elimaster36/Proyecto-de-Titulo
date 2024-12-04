@@ -1,5 +1,6 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 from grpc import Status
+import pytest
 from sqlalchemy.orm import Session
 from .models import Agenda
 from .schemas import AgendaCreate, AgendaUpdate
@@ -51,16 +52,15 @@ def delete_agenda(db: Session, agenda_id: int, firebase_id: str):
     
     # Si no se encuentra la agenda o no pertenece al usuario, lanzar una excepción
     if not db_agenda:
-        raise HTTPException(
-            status_code=Status.HTTP_404_NOT_FOUND,
-            detail="Agenda not found or unauthorized"
-        )
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Agenda not found or unauthorized")
     
     # Eliminar la agenda
     db.delete(db_agenda)
     db.commit()
     
     return db_agenda
+
+
 
 
 
