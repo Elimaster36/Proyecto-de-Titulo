@@ -19,8 +19,7 @@ Antes de comenzar, asegúrate de tener lo siguiente instalado en tu sistema:
 ---
 
 ## Estructura del proyecto
-SimplicityPhone/ ├── frontend/ # Aplicación móvil en Ionic Angular ├── backend/ # API desarrollada con FastAPI ├── database/ # Archivos relacionados con PostgreSQL ├── README.md # Instrucciones y documentación
-
+SimplicityPhone/ ├── frontend/ # Aplicación móvil en Ionic Angular ├── backend/ # API desarrollada con FastAPI ├── README.md # Instrucciones y documentación
 
 ---
 
