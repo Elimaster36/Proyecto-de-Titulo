@@ -1,6 +1,6 @@
 # SimplicityPhone
 
-SimplicityPhone es una aplicación diseñada para reducir el aislamiento digital de los adultos mayores mediante una interfaz simplificada y accesible, con funcionalidades como botones de emergencia, personalización de interfaz y agenda de recordatorios.
+SimplicityPhone es una aplicación diseñada para reducir el aislamiento digital de los adultos mayores mediante una interfaz simplificada y accesible, con funcionalidades como botones de emergencia, "Quien Soy" y agenda de recordatorios.
 
 ---
 
