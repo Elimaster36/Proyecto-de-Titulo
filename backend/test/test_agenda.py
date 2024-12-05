@@ -102,6 +102,7 @@ def test_update_agenda(db_session):
 
 # Prueba para leer las agendas
 def test_read_agendas(db_session):
+
     # Crea un usuario de prueba con un correo electrónico único
     user_email = "testread@example.com"
     user = User(name="Test Read User", email=user_email, password="password", firebase_id=str(uuid.uuid4()))
@@ -128,12 +129,13 @@ def test_read_agendas(db_session):
             firebase_id=user.firebase_id
         )
     ]
+
     db_session.bulk_save_objects(agendas)
     db_session.commit()
 
     # Consulta todas las agendas del usuario
     user_agendas = db_session.query(Agenda).filter_by(firebase_id=user.firebase_id).all()
-
+    
     # Verifica que se han recuperado correctamente
     assert len(user_agendas) == 2
     assert user_agendas[0].title == "Read Agenda 1"
