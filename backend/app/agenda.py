@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Security
 from sqlalchemy.orm import Session
 from app.dependencies import get_current_user, get_db
 from app.models import Agenda, User
-from . import crud
+from . import crud_agendas
 from utils.notifications import schedule_notification
 from . import schemas
 
@@ -12,7 +12,7 @@ router = APIRouter()
 # Ejemplo en un endpoint para obtener todas las agendas del usuario autenticado
 @router.get("/agendas/")
 def read_agendas(db: Session = Depends(get_db)):
-    return crud.get_agendas(db)
+    return crud_agendas.get_agendas(db)
 
 @router.post("/agendas/", response_model=schemas.AgendaInDBBase)
 def create_agenda(
@@ -29,7 +29,7 @@ def create_agenda(
         raise HTTPException(status_code=404, detail="User not found")
 
     # Crear la agenda asociada al usuario
-    db_agenda = crud.create_agenda(
+    db_agenda = crud_agendas.create_agenda(
         db=db, 
         agenda=agenda,  # AgendaCreate ya tiene firebase_id
     )
@@ -86,7 +86,7 @@ def delete_agenda(
     firebase_id = current_user.firebase_id
     
     # Llamar a la función del CRUD para eliminar la agenda
-    db_agenda = crud.delete_agenda(db, agenda_id, firebase_id)
+    db_agenda = crud_agendas.delete_agenda(db, agenda_id, firebase_id)
     
     # Si no se encuentra la agenda, el CRUD lanzará una HTTPException, no es necesario hacer otra verificación aquí.
     if not db_agenda:

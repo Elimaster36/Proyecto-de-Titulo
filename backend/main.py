@@ -1,24 +1,29 @@
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import Depends, FastAPI, HTTPException
 from starlette.middleware.cors import CORSMiddleware
 from app.dependencies import get_db
-from app import agenda, users, quien_soy
+from app import agenda, users, quien_soy, news, models, feed
+from sqlalchemy.orm import Session
+from fastapi import FastAPI
 import uvicorn
 
 app = FastAPI()
 
-@app.middleware("http")
-async def db_session_middleware(request: Request, call_next):
-    request.state.db = get_db()
-    response = await call_next(request)
-    try:
-        request.state.db.close()  # Usamos close en lugar de remove
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    return response
+@app.get("/user-id/")
+def get_user_id(firebase_id: str, db: Session = Depends(get_db)):
+    """
+    Endpoint para obtener el ID de la base de datos basado en el firebase_id.
+    """
+    user = db.query(models.User).filter(models.User.firebase_id == firebase_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    return {"user_id": user.id}
 
+# Registrar las rutas
 app.include_router(users.router, prefix="/api/v1")
 app.include_router(quien_soy.router, prefix="/api/v1")
 app.include_router(agenda.router, prefix="/api/v1")
+app.include_router(news.router, prefix= "/api/v1")
+app.include_router(feed.router, prefix="/api/v1")
 
 
 # Configuración de CORS para permitir las solicitudes desde tu frontend
