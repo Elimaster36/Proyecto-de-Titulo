@@ -33,19 +33,19 @@ git clone https://github.com/Elimaster36/Proyecto-de-Titulo.git
 cd Proyecto-de-Titulo
 ´´´
 ### Configurar el Frontend
-- Navega al directorio del frontend:
+- *Navega al directorio del frontend*:
 cd frontend
-- Instala las dependencias de Ionic:
+- *Instala las dependencias de Ionic*:
 npm install
-- Ejecuta el servidor de desarrollo:
+- *Ejecuta el servidor de desarrollo*:
 ionic serve
 ### Configurar el Backend
 cd ../backend
-- Crea un entorno virtual (opcional pero recomendado):
+- *Crea un entorno virtual (opcional pero recomendado)*:
 python -m venv venv
 source venv/Scripts/activate en git bash
-- Instala las dependencias:
+- *Instala las dependencias*:
 pip install -r requirements.txt
-- Ejecuta el servidor:
+- *Ejecuta el servidor*:
 uvicorn main:app --reload
 
