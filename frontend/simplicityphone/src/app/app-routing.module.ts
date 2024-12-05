@@ -53,19 +53,19 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'aplications',
+    path: 'quien-soy',
     loadChildren: () =>
-      import('./configuration/pages/aplications/aplications.module').then(
-        (m) => m.AplicationsPageModule
-      ),
+      import('./quien-soy/quien-soy.module').then((m) => m.QuienSoyPageModule),
   },
   {
-    path: 'size-configuration',
+    path: 'agenda',
     loadChildren: () =>
-      import(
-        './configuration/pages/size-configuration/size-configuration.module'
-      ).then((m) => m.SizeConfigurationPageModule),
+      import('./agenda/agenda.module').then((m) => m.AgendaPageModule),
+  },  {
+    path: 'noticias',
+    loadChildren: () => import('./noticias/noticias.module').then( m => m.NoticiasPageModule)
   },
+
 ];
 
 @NgModule({

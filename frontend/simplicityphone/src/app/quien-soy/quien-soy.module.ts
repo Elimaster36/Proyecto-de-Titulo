@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { SizeConfigurationPageRoutingModule } from './size-configuration-routing.module';
-import { SizeConfigurationPage } from './size-configuration.page';
+import { QuienSoyPageRoutingModule } from './quien-soy-routing.module';
+import { QuienSoyPage } from './quien-soy.page';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -11,9 +11,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     IonicModule,
-    SizeConfigurationPageRoutingModule,
+    QuienSoyPageRoutingModule,
     ReactiveFormsModule,
   ],
-  declarations: [SizeConfigurationPage],
+  declarations: [QuienSoyPage],
 })
-export class SizeConfigurationPageModule {}
+export class QuienSoyPageModule {}
