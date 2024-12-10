@@ -1,9 +1,6 @@
-import sys
 from fastapi import Depends, FastAPI, HTTPException
 from starlette.middleware.cors import CORSMiddleware
 from app.dependencies import get_db
-import os 
-sys.path.append(os.path.join(os.path.dirname(__file__), 'app'))
 from app import agenda, users, quien_soy, news, models, feed
 from sqlalchemy.orm import Session
 from fastapi import FastAPI

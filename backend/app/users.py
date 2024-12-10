@@ -11,11 +11,12 @@ from firebase_admin import auth, credentials
 
 router = APIRouter()
 
-# Verificar si estamos en el entorno de producción (en Render) 
-if os.getenv('RENDER'): secret_file_path = '/etc/secrets/firebase-key.json' 
-else: 
-    # Ruta local para desarrollo 
-    secret_file_path = 'app/firebase-key.json'
+# Obtener el contenido del archivo desde la variable de entorno 
+firebase_key_content = os.getenv('FIREBASE_KEY') 
+# Crear un archivo temporal con el contenido de la clave 
+with open('/etc/secrets/firebase-key.json', 'w') as f: 
+    f.write(firebase_key_content) 
+    secret_file_path = '/etc/secrets/firebase-key.json'
 
 cred = credentials.Certificate(secret_file_path)
 firebase_admin.initialize_app(cred)
