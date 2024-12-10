@@ -11,14 +11,7 @@ from firebase_admin import auth, credentials
 
 router = APIRouter()
 
-# Obtener el contenido del archivo desde la variable de entorno 
-firebase_key_content = os.getenv('FIREBASE_KEY') 
-# Crear un archivo temporal con el contenido de la clave 
-with open('/etc/secrets/firebase-key.json', 'w') as f: 
-    f.write(firebase_key_content) 
-    secret_file_path = '/etc/secrets/firebase-key.json'
-
-cred = credentials.Certificate(secret_file_path)
+cred = credentials.Certificate('app/firebase-key.json')
 firebase_admin.initialize_app(cred)
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
