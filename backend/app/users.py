@@ -1,4 +1,5 @@
 import logging
+import os
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
@@ -9,7 +10,14 @@ import firebase_admin
 from firebase_admin import auth, credentials
 
 router = APIRouter()
-cred = credentials.Certificate("app/firebase-key.json")
+
+# Verificar si estamos en el entorno de producción (en Render) 
+if os.getenv('RENDER'): secret_file_path = '/etc/secrets/firebase-key.json' 
+else: 
+    # Ruta local para desarrollo 
+    secret_file_path = 'app/firebase-key.json'
+
+cred = credentials.Certificate(secret_file_path)
 firebase_admin.initialize_app(cred)
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
