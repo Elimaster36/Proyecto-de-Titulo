@@ -65,6 +65,10 @@ const routes: Routes = [
     path: 'noticias',
     loadChildren: () => import('./noticias/noticias.module').then( m => m.NoticiasPageModule)
   },
+  {
+    path: 'compartir-ubicacion',
+    loadChildren: () => import('./compartir-ubicacion/compartir-ubicacion.module').then( m => m.CompartirUbicacionPageModule)
+  },
 
 ];
 

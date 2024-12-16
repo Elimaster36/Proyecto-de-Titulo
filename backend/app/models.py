@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from sqlalchemy import Boolean, Column, Date,Integer, String, DateTime, ForeignKey, Text
+from sqlalchemy import TIMESTAMP, Boolean, Column, Date, Float,Integer, String, DateTime, ForeignKey, Text, text
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.sql import func
 
@@ -15,7 +15,8 @@ class User(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     quien_soy = relationship('QuienSoy', back_populates='user')
     agendas = relationship("Agenda", back_populates="user")
-    feeds = relationship("Feed", back_populates="usuario") # Relación con Feed
+    feeds = relationship("Feed", back_populates="user") # Relación con Feed
+    ubicacion = relationship("Ubicacion", back_populates="user")
 
 class QuienSoy(Base):
     __tablename__ = 'quien_soy'
@@ -66,7 +67,15 @@ class Feed(Base):
     usuario = relationship("User", back_populates="feeds")
     noticia = relationship("Noticia", back_populates="feeds")
 
+class Ubicacion(Base):
+    __tablename__ = 'locations'
 
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(String, unique=True, nullable=False, index=True)
+    latitude = Column(Float, nullable=False)
+    longitude = Column(Float, nullable=False)
+    updated_at = Column(TIMESTAMP, nullable=False, server_default=text('CURRENT_TIMESTAMP'))
+    usuario = relationship("User", back_populates="locations")
 
 
 

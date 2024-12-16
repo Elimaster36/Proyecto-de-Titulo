@@ -1,0 +1,14 @@
+<ion-header [translucent]="true">
+  <ion-buttons slot="start">
+    <ion-back-button defaultHref="/home"></ion-back-button>
+  </ion-buttons>
+  <ion-toolbar>
+    <ion-title>Compartir Ubicación</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button (click)="startTracking()">Compartir ubicación en tiempo real</ion-button>
+  <ion-button (click)="stopTracking()">Detener compartición</ion-button>
+</ion-content>
+

@@ -1,7 +1,7 @@
 from fastapi import Depends, FastAPI, HTTPException
 from starlette.middleware.cors import CORSMiddleware
 from app.dependencies import get_db
-from app import agenda, users, quien_soy, news, models, feed
+from app import agenda, users, quien_soy, news, models, feed, location
 from sqlalchemy.orm import Session
 from fastapi import FastAPI
 import uvicorn
@@ -24,7 +24,7 @@ app.include_router(quien_soy.router, prefix="/api/v1")
 app.include_router(agenda.router, prefix="/api/v1")
 app.include_router(news.router, prefix= "/api/v1")
 app.include_router(feed.router, prefix="/api/v1")
-
+app.include_router(location.router, prefix="/api/v1")
 
 # Configuración de CORS para permitir las solicitudes desde tu frontend
 origins = [

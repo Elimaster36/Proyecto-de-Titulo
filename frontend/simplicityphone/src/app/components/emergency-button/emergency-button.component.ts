@@ -11,6 +11,8 @@ export class EmergencyButtonComponent implements OnInit {
   @Input() ionIcon!: string; // Para el icono de Ionic
   @Input() buttonColor!: string; // Color del botón
   @Input() customColor!: string; // Color personalizado para casos especiales
+  @Input() customClass!: string; // Clase personalizada para estilos adicionales
+
   constructor() {}
 
   ngOnInit() {}
@@ -35,3 +37,4 @@ export class EmergencyButtonComponent implements OnInit {
     window.open(`tel:${phoneNumber}`, '_system');
   }
 }
+
