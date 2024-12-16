@@ -1,10 +1,14 @@
-<ion-content>
-  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+<ion-header>
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/login"></ion-back-button>
     </ion-buttons>
-    <ion-title>Registro de Sesión</ion-title>
+    <ion-title>Registrate</ion-title>
+  </ion-toolbar>
+</ion-header>
 
+<ion-content>
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
     <ion-item class="custom-input">
       <ion-input
         formControlName="name"

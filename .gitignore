@@ -1,0 +1,9 @@
+# Firebase Key
+backend/app/firebase-key.json
+
+# Python cache
+backend/__pycache__/
+*.py[cod]
+
+# Virtual environment
+.venv/

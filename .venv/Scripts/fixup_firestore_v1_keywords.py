@@ -1,4 +1,4 @@
-#!C:\Users\Lenovo\Desktop\Proyecto-de-Titulo\.venv\Scripts\python.exe
+#!C:\Users\elias\Desktop\Unab-2024\Proyecto-de-Titulo\.venv\Scripts\python.exe
 # -*- coding: utf-8 -*-
 # Copyright 2024 Google LLC
 #

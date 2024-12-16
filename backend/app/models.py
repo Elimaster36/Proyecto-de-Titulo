@@ -16,7 +16,7 @@ class User(Base):
     quien_soy = relationship('QuienSoy', back_populates='user')
     agendas = relationship("Agenda", back_populates="user")
     feeds = relationship("Feed", back_populates="user") # Relación con Feed
-    ubicacion = relationship("Ubicacion", back_populates="user")
+    locations = relationship("Ubicacion", back_populates="user")
 
 class QuienSoy(Base):
     __tablename__ = 'quien_soy'
@@ -64,18 +64,18 @@ class Feed(Base):
     noticia_id = Column(Integer, ForeignKey("noticias.id"), nullable=False)
     fecha_vista = Column(DateTime, default=datetime.now(timezone.utc), nullable=False)
     creado_at = Column(DateTime, default=datetime.now(timezone.utc), nullable=False)
-    usuario = relationship("User", back_populates="feeds")
+    user = relationship("User", back_populates="feeds")
     noticia = relationship("Noticia", back_populates="feeds")
 
 class Ubicacion(Base):
     __tablename__ = 'locations'
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(String, unique=True, nullable=False, index=True)
+    user_id = Column(String, ForeignKey('users.firebase_id'), nullable=False, index=True)
     latitude = Column(Float, nullable=False)
     longitude = Column(Float, nullable=False)
     updated_at = Column(TIMESTAMP, nullable=False, server_default=text('CURRENT_TIMESTAMP'))
-    usuario = relationship("User", back_populates="locations")
+    user = relationship("User", back_populates="locations")
 
 
 
