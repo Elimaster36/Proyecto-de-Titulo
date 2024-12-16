@@ -1,7 +1,111 @@
-ion-card {
-  margin: 10px;
+ion-header {
+  --background: #4682b4;
+  color: #ffffff;
+
+  ion-toolbar {
+    --background: #4682b4;
+    color: #ffffff;
+
+    ion-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    ion-buttons ion-button {
+      color: #ffffff;
+    }
+  }
+}
+
+ion-content {
+  --background: #f8f9fa;
+  padding: 16px;
 }
 
 ion-button {
-  --color: primary;
+  background-color: #ff6347 !important; /* Color de fondo */
+  color: #ffffff !important; /* Color del texto */
+  margin-top: 16px;
+  border-radius: 20px !important; /* Botones más circulares */
+  
+  &::part(native) {
+    background-color: #ff6347 !important; /* Color de fondo para el componente nativo */
+    color: #ffffff !important; /* Color del texto para el componente nativo */
+  }
+
+  &:hover {
+    background-color: #ff4500 !important; /* Color de fondo al pasar el mouse */
+  }
+
+  &:active {
+    background-color: #ff4500 !important; /* Color de fondo cuando el botón está activo */
+  }
+
+  &:focus {
+    background-color: #ff4500 !important; /* Color de fondo cuando el botón está enfocado */
+  }
 }
+
+ion-list {
+  ion-card {
+    margin: 16px 0;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+
+    ion-card-header {
+      background-color: #e0e0e0; /* Gris claro */
+    }
+
+    ion-card-title {
+      color: #4682b4;
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    ion-card-content {
+      font-size: 1rem;
+      color: #333333; /* Gris más oscuro */
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px;
+      background-color: #f8f9fa;
+      border-top: 1px solid #ccc;
+    }
+
+    ion-button {
+      margin: 0 8px;
+      border-radius: 20px !important; /* Botones más circulares en las tarjetas */
+      background-color: #ff6347 !important; /* Color de fondo */
+      color: #ffffff !important; /* Color del texto */
+      
+      &::part(native) {
+        background-color: #ff6347 !important; /* Color de fondo para el componente nativo */
+        color: #ffffff !important; /* Color del texto para el componente nativo */
+      }
+
+      &:hover {
+        background-color: #ff4500 !important; /* Color de fondo al pasar el mouse */
+      }
+
+      &:active {
+        background-color: #ff4500 !important; /* Color de fondo cuando el botón está activo */
+      }
+
+      &:focus {
+        background-color: #ff4500 !important; /* Color de fondo cuando el botón está enfocado */
+      }
+    }
+  }
+}
+
+ion-spinner {
+  --spinner-color: #4682b4;
+}
+
+
+
+
