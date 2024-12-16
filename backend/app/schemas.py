@@ -73,3 +73,14 @@ class Feed(FeedBase):
     creado_at: datetime
     noticia: News  # Relación con el esquema de Noticia
 
+from pydantic import BaseModel
+from typing import Optional
+
+class Location(BaseModel):
+    user_id: str
+    latitude: float
+    longitude: float
+    updated_at: Optional[str] = None
+
+    class Config:
+        from_atributtes = True

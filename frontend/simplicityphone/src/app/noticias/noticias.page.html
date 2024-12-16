@@ -13,17 +13,19 @@
   <ion-spinner *ngIf="isLoading"></ion-spinner>
 
   <ion-list *ngIf="!isLoading">
-    <ion-item *ngFor="let news of newsList">
-      <ion-label>
-        <h2>{{ news.title }}</h2>
+    <ion-card *ngFor="let news of newsList">
+      <ion-card-header>
+        <ion-card-title>{{ news.title }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
         <p>{{ news.description }}</p>
-      </ion-label>
-      <ion-button slot="end" (click)="markAsRead(news.id)"
-        >Marcar como vista</ion-button
-      >
-      <ion-button slot="end" (click)="openLink(news.url)"
-        >Abrir Enlace</ion-button
-      >
-    </ion-item>
+      </ion-card-content>
+      <div class="card-footer">
+        <ion-button (click)="markAsRead(news.id)" slot="end">Marcar como vista</ion-button>
+        <ion-button (click)="openLink(news.url)" slot="end">Abrir Enlace</ion-button>
+      </div>
+    </ion-card>
   </ion-list>
 </ion-content>
+
+

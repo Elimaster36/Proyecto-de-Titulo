@@ -1,79 +1,55 @@
 ion-content {
-  --background: #118ceb; /* Color de fondo del contenido */
-  text-align: center; /* Centrar texto dentro del contenido */
+  --background: #f8f9fa;
+  padding: 16px;
 }
 
-ion-back-button {
-  --color: #ffffff; /* Cambiar color de la flecha */
-  --icon-size: 24px; /* Tamaño del ícono */
-  transform: translateX(-15px);
+ion-title {
+  color: #4682b4;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-form {
-  display: flex; /* Usar flexbox para centrar los elementos */
-  flex-direction: column; /* Alinear elementos en columna */
-  justify-content: center; /* Centrar elementos verticalmente */
-  height: auto; /* Ajustar la altura automáticamente */
-  padding: 20px; /* Añadir un poco de espacio alrededor del formulario */
-  max-width: 400px; /* Limitar el ancho máximo del contenedor */
-  margin-left: auto; /* Centrar horizontalmente */
-  margin-right: auto; /* Centrar horizontalmente */
-  width: 100%;
-  ion-title {
-    text-align: center;
-    background-color: #3bd415; /* Color verde */
-    padding: 10px; /* Espacio alrededor del título */
-    border-radius: 20px; /* Bordes redondeados */
-    margin-bottom: 20px; /* Espacio debajo del título */
-    width: 100%;
-    justify-content: center;
-  }
-  ion-item {
-    text-align: center;
-    ion-input {
-      //display: block; /* Asegurar que el label se comporte como bloque */
-      //margin-top: 10px; /* Espacio debajo del label */
-      color: rgb(0, 0, 0); /* Color del texto del label */
-      text-align: center; /* Alinear texto a la izquierda */
-      border-radius: 20px;
-      font-size: 16px;
-    }
-    ion-icon {
-      cursor: pointer; /* Cambia el cursor a mano al pasar sobre el ícono /
-        margin-left: 25px; / Espacio entre el input y el ícono */
-      transform: translateY(-1px);
-      color: #070707;
-    }
-  }
+ion-item.custom-input {
+  --background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 8px 0;
+}
 
-  //.form-container {
-  //display: flex; /* Usar flexbox para centrar los elementos */
-  //flex-direction: column; /* Alinear elementos en columna */
-  //align-items: center; /* Centrar elementos horizontalmente */
-  //justify-content: center; /* Centrar elementos verticalmente */
-  //height: 80%; /* Tomar toda la altura disponible */
-  //padding: 20px; /* Añadir un poco de espacio alrededor del formulario */
-  //width: 100%;
-  //}
+ion-input {
+  color: #333333;
+}
 
-  .custom-input {
-    margin-bottom: 15px; /* Espacio entre los campos de entrada */
-    --placeholder-color: #070707; /* Color del placeholder */
-    --background: rgb(255, 255, 255); /* Color de fondo del input */
-    --border-radius: 15px; /* Bordes redondeados */
-    --color: rgb(1, 1, 1); /* Color del texto en el input */
-    width: 100%; /* Ancho del input ajustado */
-  }
+ion-text.color-danger {
+  color: #ff6347;
+}
 
-  ion-button {
-    --background: #2feb00; /* Color de fondo del botón */
-    --border-radius: 20px; /* Bordes redondeados */
-    width: 100%; /* Ancho del botón ajustado */
-  }
+.notificaciones {
+  display: flex;
+  align-items: center;
+  color: #ff6347;
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
 
-  .notificaciones {
-    color: rgb(204, 42, 42); /* Color del texto de notificaciones */
-    text-align: center; /* Alinear texto a la izquierda */
-    margin-top: -10px;
+ion-icon {
+  color: #ff6347;
+}
+
+ion-buttons ion-back-button {
+  color: #4682b4;
+}
+
+ion-button {
+  background-color: #ff6347;
+  color: #ffffff;
+  margin-top: 16px;
+  border-radius: 20px;
+
+  &:hover {
+    background-color: #ff4500;
   }
 }
+

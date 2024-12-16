@@ -3,6 +3,7 @@
   expand="block"
   shape="round"
   [color]="buttonColor"
+  [ngClass]="customClass"
   class="menu-btn"
   (click)="callEmergencyService()"
 >
@@ -13,3 +14,4 @@
     <ion-icon [name]="ionIcon"></ion-icon>
   </ng-template>
 </ion-button>
+
