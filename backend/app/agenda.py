@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import APIRouter, Depends, HTTPException, Security
 from sqlalchemy.orm import Session
 from app.dependencies import get_current_user, get_db
@@ -5,14 +6,16 @@ from app.models import Agenda, User
 from . import crud_agendas
 from utils.notifications import schedule_notification
 from . import schemas
+from app.users import UserLogin
 
 router = APIRouter()
 
-
-# Ejemplo en un endpoint para obtener todas las agendas del usuario autenticado
-@router.get("/agendas/")
-def read_agendas(db: Session = Depends(get_db)):
-    return crud_agendas.get_agendas(db)
+@router.get("/agendas/", response_model=List[schemas.AgendaInDBBase])
+def read_agendas(current_user: UserLogin= Depends(get_current_user), db: Session = Depends(get_db)):
+    agendas = crud_agendas.get_user_agendas(db, current_user.firebase_id)
+    if agendas is None:
+        raise HTTPException(status_code=404, detail="No agendas found for this user")
+    return agendas
 
 @router.post("/agendas/", response_model=schemas.AgendaInDBBase)
 def create_agenda(
