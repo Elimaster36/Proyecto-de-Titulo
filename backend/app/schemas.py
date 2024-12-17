@@ -34,17 +34,12 @@ class UserBase(BaseModel):
     class Config:
         from_attributes = True  
 
-
-from pydantic import BaseModel
-from typing import Optional
-from datetime import datetime
-
 class NewsBase(BaseModel):
     title: str
     description: Optional[str]
     url: str
     source_id: Optional[str]
-    pub_date: Optional[datetime]
+    pub_date: Optional[time]
 
     class Config:
         from_attributes = True
@@ -54,13 +49,13 @@ class NewsCreate(NewsBase):
 
 class News(NewsBase):
     id: int
-    created_at: datetime
-    updated_at: datetime
+    created_at: time
+    updated_at: time
 
 class FeedBase(BaseModel):
     usuario_id: str
     noticia_id: int
-    fecha_vista: Optional[datetime] = None
+    fecha_vista: Optional[time] = None
 
     class Config:
         from_attributes = True
@@ -70,11 +65,8 @@ class FeedCreate(FeedBase):
 
 class Feed(FeedBase):
     id: int
-    creado_at: datetime
+    creado_at: time
     noticia: News  # Relación con el esquema de Noticia
-
-from pydantic import BaseModel
-from typing import Optional
 
 class Location(BaseModel):
     user_id: str

@@ -10,7 +10,10 @@ def get_agendas(db: Session):
     agendas = db.query(Agenda).all()
     return agendas
 
-def create_agenda(db: Session, agenda: AgendaCreate):
+def get_user_agendas(db: Session, firebase_id: str):
+    return db.query(Agenda).filter(Agenda.firebase_id == firebase_id).all()
+
+def create_agenda(db: Session,agenda: AgendaCreate):
     # Crear una nueva agenda asociada al usuario mediante firebase_id
     db_agenda = Agenda(
         title=agenda.title,

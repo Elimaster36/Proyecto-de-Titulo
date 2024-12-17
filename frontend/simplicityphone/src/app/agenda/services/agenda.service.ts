@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
   providedIn: 'root',
 })
 export class AgendaService {
-  private apiUrl = 'http://127.0.0.1:8000/api/v1/agendas';
+  private apiUrl = 'http://127.0.0.1:8000/api/v1/agendas';  // Cambia la IP a la dirección correcta de tu backend
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -69,13 +69,13 @@ export class AgendaService {
       )
     );
   }
+
   updateNote(note: Agenda, id: number): Observable<Agenda> {
     return this.getAuthHeaders().pipe(
       switchMap((headers) =>
         this.authService.getUser().pipe(
           switchMap((user) => {
             if (user) {
-              // Obtener firebase_id del usuario
               const firebaseId = user.uid;
               const noteWithFirebaseId = { ...note, firebase_id: firebaseId };
               return this.http.put<Agenda>(
